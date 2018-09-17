@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       underscored: true
     }
   );
-  Username.associate = function(models) {
+  user.associate = function(models) {
     // associations can be defined here
   };
   return user;
