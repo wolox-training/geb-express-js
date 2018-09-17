@@ -48,7 +48,7 @@
     "pg": "^7.4.1",
     "pg-native": "^2.2.0",
     "rollbar": "^2.3.9",
-    "sequelize": "^4.34.0",
+    "sequelize": "^4.38.1",
     "umzug": "^2.1.0",
     "winston": "^2.4.0",
     "winston-daily-rotate-file": "^1.7.2"
@@ -77,6 +77,6 @@
     "prettier": "^1.8.2",
     "prettier-eslint": "^8.2.1",
     "prompt": "^1.0.0",
-    "sequelize-cli": "^4.0.0"
+    "sequelize-cli": "^4.1.1"
   }
 }
