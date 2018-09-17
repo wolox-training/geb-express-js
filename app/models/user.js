@@ -1,8 +1,8 @@
 const errors = require('../errors');
 
 module.exports = (sequelize, DataTypes) => {
-  const Username = sequelize.define(
-    'Username',
+  const user = sequelize.define(
+    'user',
     {
       firstName: {
         type: DataTypes.STRING,
@@ -29,5 +29,5 @@ module.exports = (sequelize, DataTypes) => {
   Username.associate = function(models) {
     // associations can be defined here
   };
-  return Username;
+  return user;
 };
