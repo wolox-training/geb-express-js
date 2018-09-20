@@ -4,6 +4,7 @@ const winston = require('winston'),
   logDir = `${__dirname}/logs`;
 winston.transports.DailyRotateFile = require('winston-daily-rotate-file');
 
+// If it doesnt exists the logger directory make it
 if (!fs.existsSync(logDir)) {
   fs.mkdirSync(logDir);
   fs.mkdirSync(`${logDir}/history`);
@@ -11,6 +12,7 @@ if (!fs.existsSync(logDir)) {
 
 const tsFormat = () => new Date().toLocaleTimeString();
 const logger = new winston.Logger({
+  // Make a new logger
   transports: [
     new winston.transports.File({
       name: 'complete',
