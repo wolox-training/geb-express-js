@@ -1,9 +1,7 @@
 const users = require('../models').users,
   helpers = require('../helpers'),
-  bcrypt = require('bcryptjs'),
   logger = require('../logger'),
   errors = require('../errors'),
-  isAlphanumeric = require('is-alphanumeric');
 
 exports.signUp = (req, res, next) => {
   const saltRounds = 5;
