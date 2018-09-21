@@ -1,6 +1,4 @@
 const users = require('../models').users,
-  bcrypt = require('bcryptjs'),
-  logger = require('../logger'),
   errors = require('../errors'),
   isAlphanumeric = require('is-alphanumeric');
 
