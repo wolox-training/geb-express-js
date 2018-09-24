@@ -8,7 +8,6 @@ exports.defaultError = message => internalError(message, exports.DEFAULT_ERROR);
 
 exports.DEFAULT_DATABASE_ERROR = 'database_error';
 exports.defaultDatabase = sequelizeError => {
-  console.log(sequelizeError);
   let errors;
   if (sequelizeError.errors) {
     errors = sequelizeError.errors.map(error => error.message);
