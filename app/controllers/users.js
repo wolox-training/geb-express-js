@@ -19,13 +19,14 @@ exports.signUp = (req, res, next) => {
       return bcrypt.hash(pwd, saltRounds).then(hash => {
         user.password = hash;
         return users.newUser(user).then(u => {
-          logger.info('user created correctly');
+          logger.info('User created correctly.');
           res.status(200);
           res.end();
         });
       });
     })
     .catch(err => {
+      logger.info('Error');
       next(err);
     });
 };
