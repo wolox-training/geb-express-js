@@ -2,30 +2,33 @@ const users = require('../models').users,
   bcrypt = require('bcryptjs'),
   helpers = require('../helpers'),
   logger = require('../logger'),
-  errors = require('../errors'),
-  isAlphanumeric = require('is-isalphanumeric');
-
+  errors = require('../errors');
 
 exports.signUp = (req, res, next) => {
   const saltRounds = 5;
+  const signErrors = [];
 
-  const user = {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    password: req.body.password
-  };
+  if (!helpers.validatePassword(req.body.password)) signErrors.push(errors.invalidPassword());
+  if (!helpers.validateEmail(req.body.email)) signErrors.push(errors.invalidEmail());
 
-  helpers
-    .validateEmailPassword(user.email, user.password)
-    .then(pwd => {
-      return bcrypt.hash(pwd, saltRounds).then(hash => {
-        user.password = hash;
-        return users.newUser(user).then(u => {
-          logger.info('User created correctly.');
-          res.status(200);
-          res.end();
-        });
+  if (signErrors.length) {
+    throw signErrors;
+  }
+
+  return bcrypt
+    .hash(req.body.password, saltRounds)
+    .then(hash => {
+      const user = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: hash
+      };
+
+      return users.newUser(user).then(u => {
+        logger.info('User created correctly.');
+        res.status(200);
+        res.end();
       });
     })
     .catch(err => {
