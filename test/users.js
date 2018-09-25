@@ -12,8 +12,8 @@ describe('users', () => {
         .send({
           firstName: 'John',
           lastName: 'Doe',
-          email: 'johndoe@wolox.com.ar',
-          password: 'johndoepassword'
+          email: 'notjohndoe@wolox.com.ar',
+          password: 'johndoepasswor44d'
         })
         .then(res => {
           res.should.have.status(200);
@@ -29,7 +29,7 @@ describe('users', () => {
           firstName: 'John',
           lastName: 'Doe',
           email: 'johndoe@wolox.com.ar',
-          password: 'johndoepassword'
+          password: 'johndoepassword22'
         })
         .catch(err => {
           err.should.have.status(422);
@@ -45,11 +45,11 @@ describe('users', () => {
         .post('/users')
         .send({
           firstName: 'John',
-          lastName: 'Doe',
+          email: 'johnwithnolastname@wolox.co',
           password: 'johndoepassword28'
         })
         .catch(err => {
-          err.should.have.status(400);
+          err.should.have.status(500);
           err.response.should.be.json;
           err.response.body.should.have.property('message');
           err.response.body.should.have.property('internal_code');
