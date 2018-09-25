@@ -17,4 +17,5 @@ exports.validatePassword = pwd => {
     return true;
   }
   throw errors.invalidPassword();
+
 };
