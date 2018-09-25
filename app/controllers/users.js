@@ -2,12 +2,11 @@ const users = require('../models').users,
   bcrypt = require('bcryptjs'),
   helpers = require('../helpers'),
   logger = require('../logger'),
-  errors = require('../errors'),
-  isAlphanumeric = require('is-isalphanumeric');
-
+  errors = require('../errors');
 
 exports.signUp = (req, res, next) => {
   const saltRounds = 5;
+<<<<<<< 72de4844d3f7e8865090cbce8f9c87d7c48dc210
 <<<<<<< 747066e5874edef1326a42baa4b2de28b1a5d574
 =======
   const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -49,6 +48,31 @@ exports.signUp = (req, res, next) => {
           })
           .catch(next);
 >>>>>>> made my branch to track the signup_tests
+=======
+  const signErrors = [];
+
+  if (!helpers.validatePassword(req.body.password)) signErrors.push(errors.invalidPassword());
+  if (!helpers.validateEmail(req.body.email)) signErrors.push(errors.invalidEmail());
+
+  if (signErrors.length) {
+    throw signErrors;
+  }
+
+  return bcrypt
+    .hash(req.body.password, saltRounds)
+    .then(hash => {
+      const user = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: hash
+      };
+
+      return users.newUser(user).then(u => {
+        logger.info('User created correctly.');
+        res.status(200);
+        res.end();
+>>>>>>> made some fixes, duplicate user still wont pass
       });
     })
     .catch(err => {
