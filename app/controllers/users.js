@@ -6,6 +6,7 @@ const users = require('../models').users,
 
 exports.signUp = (req, res, next) => {
   const saltRounds = 5;
+<<<<<<< 2fdf40e70de7a7664a8ed5fef4610d1588d2e0c7
 <<<<<<< 72de4844d3f7e8865090cbce8f9c87d7c48dc210
 <<<<<<< 747066e5874edef1326a42baa4b2de28b1a5d574
 =======
@@ -51,6 +52,10 @@ exports.signUp = (req, res, next) => {
 =======
   const signErrors = [];
 
+=======
+  const signErrors = [];
+
+>>>>>>> Fixed requested changes
   if (!helpers.validatePassword(req.body.password)) signErrors.push(errors.invalidPassword());
   if (!helpers.validateEmail(req.body.email)) signErrors.push(errors.invalidEmail());
 
@@ -72,7 +77,10 @@ exports.signUp = (req, res, next) => {
         logger.info('User created correctly.');
         res.status(200);
         res.end();
+<<<<<<< 2fdf40e70de7a7664a8ed5fef4610d1588d2e0c7
 >>>>>>> made some fixes, duplicate user still wont pass
+=======
+>>>>>>> Fixed requested changes
       });
     })
     .catch(err => {
