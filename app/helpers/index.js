@@ -6,15 +6,13 @@ const users = require('../models').users,
   VALID_CL = /^\w+([\.-]?\w+)*@\wolox.cl/;
 
 exports.validateEmail = email => {
-  if (VALID_AR.test(email) || VALID_CO.test(email) || VALID_CL.test(email)) {
-    return true;
+  if (!VALID_AR.test(email) && !VALID_CO.test(email) && !VALID_CL.test(email)){
+    return errors.invalidEmail();
   }
-  throw errors.invalidEmail();
 };
 
 exports.validatePassword = pwd => {
-  if (VALID_ALPHANUM.test(pwd) && pwd.length >= 8) {
-    return true;
+  if (!(VALID_ALPHANUM.test(pwd) && pwd.length >= 8)) {
+    return errors.invalidPassword();
   }
-  throw errors.invalidPassword();
 };

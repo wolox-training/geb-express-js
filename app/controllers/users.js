@@ -10,7 +10,7 @@ exports.signUp = (req, res, next) => {
 
   if (!helpers.validatePassword(req.body.password)) signErrors.push(errors.invalidPassword());
   if (!helpers.validateEmail(req.body.email)) signErrors.push(errors.invalidEmail());
-
+  console.log('Lenght es' + signErrors.length);
   if (signErrors.length) {
     throw signErrors;
   }
