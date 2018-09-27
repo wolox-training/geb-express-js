@@ -12,7 +12,7 @@ exports.validateEmail = (email, errs) => {
 };
 
 exports.validatePassword = (password, errs) => {
-  if( !VALID_ALPHANUM.test(password) || password.length<8){
+  if (!VALID_ALPHANUM.test(password) || password.length < 8) {
     errs.push(errors.INVALID_PASSWORD);
   }
-}
+};
