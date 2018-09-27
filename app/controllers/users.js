@@ -9,7 +9,7 @@ exports.signUp = (req, res, next) => {
   const errs = [];
 
   helpers.validateEmail(req.body.email, errs);
-  helpers.validatePassword(req.body.password,errs);
+  helpers.validatePassword(req.body.password, errs);
 
   if (errs.length) {
     next(errors.invalidSignup(errs));
