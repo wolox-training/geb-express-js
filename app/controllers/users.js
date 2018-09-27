@@ -6,6 +6,7 @@ const users = require('../models').users,
 
 exports.signUp = (req, res, next) => {
   const saltRounds = 5;
+<<<<<<< 04a658338da54caff107df2d95323f47c7e68fa7
 <<<<<<< 2fdf40e70de7a7664a8ed5fef4610d1588d2e0c7
 <<<<<<< 72de4844d3f7e8865090cbce8f9c87d7c48dc210
 <<<<<<< 747066e5874edef1326a42baa4b2de28b1a5d574
@@ -61,6 +62,15 @@ exports.signUp = (req, res, next) => {
   console.log('Lenght es' + signErrors.length);
   if (signErrors.length) {
     throw signErrors;
+=======
+  const errs = [];
+
+  helpers.validateEmail(req.body.email, errs);
+  helpers.validatePassword(req.body.password,errs);
+
+  if (errs.length) {
+    next(errors.invalidSignup(errs));
+>>>>>>> fixed req changes
   }
 
   return bcrypt
