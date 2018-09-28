@@ -4,6 +4,22 @@ const users = require('../models').users,
   logger = require('../logger'),
   errors = require('../errors');
 
+exports.logIn = (req, res, next) => {
+  return users.findUser(req.body.email).then(u => {
+    if (u) {
+      bcrypt
+        .compare(req.body.password, u.password)
+        .then(() => {
+          res.status(200);
+          res.end();
+        })
+        .catch(err => {
+          next(errors.invalidPassword());
+        });
+    }
+  });
+};
+
 exports.signUp = (req, res, next) => {
   const saltRounds = 5;
 <<<<<<< 09bef0e6632521d24cfee84937f43ac1cbf89364
