@@ -6,10 +6,14 @@ const users = require('../models').users,
 
 exports.signUp = (req, res, next) => {
   const saltRounds = 5;
-  const errs = [];
+  let errs = [];
 
-  helpers.validateEmail(req.body.email, errs);
-  helpers.validatePassword(req.body.password, errs);
+  errs.push(helpers.validateEmail(req.body.email));
+  errs.push(helpers.validatePassword(req.body.password));
+
+  errs = errs.filter(function(err) {
+    return err !== undefined;
+  });
 
   if (errs.length) {
     next(errors.invalidSignup(errs));
