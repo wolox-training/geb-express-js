@@ -5,14 +5,14 @@ const users = require('../models').users,
   VALID_CO = /^\w+([\.-]?\w+)*@\wolox.co/,
   VALID_CL = /^\w+([\.-]?\w+)*@\wolox.cl/;
 
-exports.validateEmail = (email, errs) => {
+exports.validateEmail = email => {
   if (!VALID_AR.test(email) && !VALID_CO.test(email) && !VALID_CL.test(email)) {
-    errs.push(errors.INVALID_EMAIL);
+    return errors.INVALID_EMAIL;
   }
 };
 
-exports.validatePassword = (password, errs) => {
+exports.validatePassword = password => {
   if (!VALID_ALPHANUM.test(password) || password.length < 8) {
-    errs.push(errors.INVALID_PASSWORD);
+    return errors.INVALID_PASSWORD;
   }
 };

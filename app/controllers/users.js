@@ -6,6 +6,7 @@ const users = require('../models').users,
 
 exports.signUp = (req, res, next) => {
   const saltRounds = 5;
+<<<<<<< fbc1b74de642cb9727a9b25334e10ead7f9a52c9
 <<<<<<< 04a658338da54caff107df2d95323f47c7e68fa7
 <<<<<<< 2fdf40e70de7a7664a8ed5fef4610d1588d2e0c7
 <<<<<<< 72de4844d3f7e8865090cbce8f9c87d7c48dc210
@@ -64,9 +65,16 @@ exports.signUp = (req, res, next) => {
     throw signErrors;
 =======
   const errs = [];
+=======
+  let errs = [];
+>>>>>>> fixed requested changes
 
-  helpers.validateEmail(req.body.email, errs);
-  helpers.validatePassword(req.body.password, errs);
+  errs.push(helpers.validateEmail(req.body.email));
+  errs.push(helpers.validatePassword(req.body.password));
+
+  errs = errs.filter(function(err) {
+    return err !== undefined;
+  });
 
   if (errs.length) {
     next(errors.invalidSignup(errs));
