@@ -90,8 +90,8 @@ exports.signUp = (req, res, next) => {
         email: req.body.email,
         password: hash
       };
-
       return users.newUser(user).then(u => {
+        console.log(u);
         logger.info('User created correctly.');
         res.status(200);
         res.end();
