@@ -22,6 +22,7 @@ exports.logIn = (req, res, next) => {
 
 exports.signUp = (req, res, next) => {
   const saltRounds = 5;
+<<<<<<< b81a53cf95789ad05f09e5e965972393687e6f9e
 <<<<<<< 09bef0e6632521d24cfee84937f43ac1cbf89364
 <<<<<<< fbc1b74de642cb9727a9b25334e10ead7f9a52c9
 <<<<<<< 04a658338da54caff107df2d95323f47c7e68fa7
@@ -87,20 +88,28 @@ exports.signUp = (req, res, next) => {
 >>>>>>> fixed the branch with the previous pr and some typos
   let errs = [];
 >>>>>>> fixed requested changes
+=======
+  const errs = [];
+>>>>>>> switch let for const
 
   errs.push(helpers.validateEmail(req.body.email));
   errs.push(helpers.validatePassword(req.body.password));
 
-  errs = errs.filter(function(err) {
+  const messages = errs.filter(function(err) {
     return err !== undefined;
   });
 
+<<<<<<< b81a53cf95789ad05f09e5e965972393687e6f9e
   if (errs.length) {
     next(errors.invalidSignup(errs));
 <<<<<<< 09bef0e6632521d24cfee84937f43ac1cbf89364
 >>>>>>> fixed req changes
 =======
 >>>>>>> fixed the branch with the previous pr and some typos
+=======
+  if (messages.length) {
+    next(errors.invalidSignup(messages));
+>>>>>>> switch let for const
   }
 
   return bcrypt
