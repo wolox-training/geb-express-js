@@ -6,6 +6,7 @@ const users = require('../models').users,
 
 exports.signUp = (req, res, next) => {
   const saltRounds = 5;
+<<<<<<< 09bef0e6632521d24cfee84937f43ac1cbf89364
 <<<<<<< fbc1b74de642cb9727a9b25334e10ead7f9a52c9
 <<<<<<< 04a658338da54caff107df2d95323f47c7e68fa7
 <<<<<<< 2fdf40e70de7a7664a8ed5fef4610d1588d2e0c7
@@ -66,6 +67,8 @@ exports.signUp = (req, res, next) => {
 =======
   const errs = [];
 =======
+=======
+>>>>>>> fixed the branch with the previous pr and some typos
   let errs = [];
 >>>>>>> fixed requested changes
 
@@ -78,7 +81,10 @@ exports.signUp = (req, res, next) => {
 
   if (errs.length) {
     next(errors.invalidSignup(errs));
+<<<<<<< 09bef0e6632521d24cfee84937f43ac1cbf89364
 >>>>>>> fixed req changes
+=======
+>>>>>>> fixed the branch with the previous pr and some typos
   }
 
   return bcrypt
@@ -90,8 +96,13 @@ exports.signUp = (req, res, next) => {
         email: req.body.email,
         password: hash
       };
+<<<<<<< 09bef0e6632521d24cfee84937f43ac1cbf89364
       return users.newUser(user).then(u => {
         console.log(u);
+=======
+
+      return users.newUser(user).then(u => {
+>>>>>>> fixed the branch with the previous pr and some typos
         logger.info('User created correctly.');
         res.status(200);
         res.end();
