@@ -6,17 +6,17 @@ const users = require('../models').users,
 
 exports.signUp = (req, res, next) => {
   const saltRounds = 5;
-  let errs = [];
+  const errs = [];
 
   errs.push(helpers.validateEmail(req.body.email));
   errs.push(helpers.validatePassword(req.body.password));
 
-  errs = errs.filter(function(err) {
+  const messages = errs.filter(function(err) {
     return err !== undefined;
   });
 
-  if (errs.length) {
-    next(errors.invalidSignup(errs));
+  if (messages.length) {
+    next(errors.invalidSignup(messages));
   }
 
   return bcrypt
