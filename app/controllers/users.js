@@ -6,6 +6,7 @@ const users = require('../models').users,
 
 exports.signUp = (req, res, next) => {
   const saltRounds = 5;
+<<<<<<< HEAD
   let errs = [];
 
   errs.push(helpers.validateEmail(req.body.email));
@@ -17,6 +18,15 @@ exports.signUp = (req, res, next) => {
 
   if (errs.length) {
     next(errors.invalidSignup(errs));
+=======
+  const signErrors = [];
+
+  if (!helpers.validatePassword(req.body.password)) signErrors.push(errors.invalidPassword());
+  if (!helpers.validateEmail(req.body.email)) signErrors.push(errors.invalidEmail());
+
+  if (signErrors.length) {
+    throw signErrors;
+>>>>>>> e883197e8f4e0a354551e3c22c54d7d0660c411f
   }
 
   return bcrypt
@@ -28,8 +38,13 @@ exports.signUp = (req, res, next) => {
         email: req.body.email,
         password: hash
       };
+<<<<<<< HEAD
       return users.newUser(user).then(u => {
         console.log(u);
+=======
+
+      return users.newUser(user).then(u => {
+>>>>>>> e883197e8f4e0a354551e3c22c54d7d0660c411f
         logger.info('User created correctly.');
         res.status(200);
         res.end();
