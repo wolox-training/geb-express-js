@@ -7,6 +7,7 @@ const statusCodes = {
   [errors.INVALID_USER_ERROR]: 400,
   [errors.INVALID_EMAIL]: 400,
   [errors.INVALID_PASSWORD]: 400,
+  [errors.INVALID_SIGNUP]: 400,
   [errors.USER_ALREADY_EXISTS]: 422,
   [errors.DEFAULT_DATABASE_ERROR]: 500,
   [errors.DEFAULT_ERROR]: 500

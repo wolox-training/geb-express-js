@@ -11,6 +11,8 @@ exports.defaultDatabase = sequelizeError => {
   let errors;
   if (sequelizeError.errors) {
     errors = sequelizeError.errors.map(error => error.message);
+  } else if (sequelizeError.error) {
+    errors = [sequelizeError.error];
   } else {
     errors = [sequelizeError.message];
   }
