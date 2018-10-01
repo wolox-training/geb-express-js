@@ -1,17 +1,27 @@
 const users = require('../models').users,
+  jsonwt = 
   bcrypt = require('bcryptjs'),
   helpers = require('../helpers'),
   logger = require('../logger'),
-  errors = require('../errors');
+  errors = require('../errors'),
+  sessionManager = require('../services/sessionManager');
 
 exports.logIn = (req, res, next) => {
   return users.findUser(req.body.email).then(u => {
     if (u) {
       bcrypt
         .compare(req.body.password, u.password)
-        .then(() => {
-          res.status(200);
-          res.end();
+        .then( valid => {
+          if (valid){
+
+            const auth = sessionManager.encode({username : u.username});
+
+            res.status(200);
+            res.end();
+          }
+          else{
+            next(errors.invalidUser());
+          }
         })
         .catch(err => {
           next(errors.invalidPassword());
@@ -22,6 +32,7 @@ exports.logIn = (req, res, next) => {
 
 exports.signUp = (req, res, next) => {
   const saltRounds = 5;
+<<<<<<< 0c57f48aac77faa2d2bb3a56f05e92848a91ed0c
 <<<<<<< 6e94d0fc835c0bb6d44a7def339e4e07d350083d
 <<<<<<< b81a53cf95789ad05f09e5e965972393687e6f9e
 <<<<<<< 09bef0e6632521d24cfee84937f43ac1cbf89364
@@ -95,10 +106,14 @@ exports.signUp = (req, res, next) => {
 =======
   const errs = [];
 >>>>>>> fixed requested changes
+=======
+  const errs = [];
+>>>>>>> implementing signin
 
   errs.push(helpers.validateEmail(req.body.email));
   errs.push(helpers.validatePassword(req.body.password));
 
+<<<<<<< 0c57f48aac77faa2d2bb3a56f05e92848a91ed0c
 <<<<<<< 724b8575dc1f40273641a2daad7faf740bdf33e0
 <<<<<<< 6e94d0fc835c0bb6d44a7def339e4e07d350083d
   const messages = errs.filter(function(err) {
@@ -110,6 +125,11 @@ exports.signUp = (req, res, next) => {
 
 <<<<<<< b81a53cf95789ad05f09e5e965972393687e6f9e
   if (errs.length) {
+=======
+  const messages = errs.filter(err => err !== '');
+
+  if (messages.length) {
+>>>>>>> implementing signin
     next(errors.invalidSignup(errs));
 <<<<<<< 09bef0e6632521d24cfee84937f43ac1cbf89364
 >>>>>>> fixed req changes
