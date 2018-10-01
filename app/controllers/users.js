@@ -99,10 +99,14 @@ exports.signUp = (req, res, next) => {
   errs.push(helpers.validateEmail(req.body.email));
   errs.push(helpers.validatePassword(req.body.password));
 
+<<<<<<< 724b8575dc1f40273641a2daad7faf740bdf33e0
 <<<<<<< 6e94d0fc835c0bb6d44a7def339e4e07d350083d
   const messages = errs.filter(function(err) {
     return err !== undefined;
   });
+=======
+  const messages = errs.filter(err => err !== '');
+>>>>>>> fixed requested changes
 
 <<<<<<< b81a53cf95789ad05f09e5e965972393687e6f9e
   if (errs.length) {
