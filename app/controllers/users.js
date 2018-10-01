@@ -11,9 +11,7 @@ exports.signUp = (req, res, next) => {
   errs.push(helpers.validateEmail(req.body.email));
   errs.push(helpers.validatePassword(req.body.password));
 
-  const messages = errs.filter(function(err) {
-    return err !== undefined;
-  });
+  const messages = errs.filter(err => err !== '');
 
   if (messages.length) {
     next(errors.invalidSignup(messages));
