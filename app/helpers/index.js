@@ -8,11 +8,11 @@ const users = require('../models').users,
 exports.validateEmail = email => {
   if (!VALID_AR.test(email) && !VALID_CO.test(email) && !VALID_CL.test(email)) {
     return errors.INVALID_EMAIL;
-  }
+  } else return '';
 };
 
 exports.validatePassword = password => {
   if (!VALID_ALPHANUM.test(password) || password.length < 8) {
     return errors.INVALID_PASSWORD;
-  }
+  } else return '';
 };
