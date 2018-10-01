@@ -1,17 +1,27 @@
 const users = require('../models').users,
+  jsonwt = 
   bcrypt = require('bcryptjs'),
   helpers = require('../helpers'),
   logger = require('../logger'),
-  errors = require('../errors');
+  errors = require('../errors'),
+  sessionManager = require('../services/sessionManager');
 
 exports.logIn = (req, res, next) => {
   return users.findUser(req.body.email).then(u => {
     if (u) {
       bcrypt
         .compare(req.body.password, u.password)
-        .then(() => {
-          res.status(200);
-          res.end();
+        .then( valid => {
+          if (valid){
+
+            const auth = sessionManager.encode({username : u.username});
+
+            res.status(200);
+            res.end();
+          }
+          else{
+            next(errors.invalidUser());
+          }
         })
         .catch(err => {
           next(errors.invalidPassword());
@@ -22,16 +32,14 @@ exports.logIn = (req, res, next) => {
 
 exports.signUp = (req, res, next) => {
   const saltRounds = 5;
-  let errs = [];
+  const errs = [];
 
   errs.push(helpers.validateEmail(req.body.email));
   errs.push(helpers.validatePassword(req.body.password));
 
-  errs = errs.filter(function(err) {
-    return err !== undefined;
-  });
+  const messages = errs.filter(err => err !== '');
 
-  if (errs.length) {
+  if (messages.length) {
     next(errors.invalidSignup(errs));
   }
 
