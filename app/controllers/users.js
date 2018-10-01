@@ -22,6 +22,7 @@ exports.logIn = (req, res, next) => {
 
 exports.signUp = (req, res, next) => {
   const saltRounds = 5;
+<<<<<<< 6e94d0fc835c0bb6d44a7def339e4e07d350083d
 <<<<<<< b81a53cf95789ad05f09e5e965972393687e6f9e
 <<<<<<< 09bef0e6632521d24cfee84937f43ac1cbf89364
 <<<<<<< fbc1b74de642cb9727a9b25334e10ead7f9a52c9
@@ -91,10 +92,14 @@ exports.signUp = (req, res, next) => {
 =======
   const errs = [];
 >>>>>>> switch let for const
+=======
+  const errs = [];
+>>>>>>> fixed requested changes
 
   errs.push(helpers.validateEmail(req.body.email));
   errs.push(helpers.validatePassword(req.body.password));
 
+<<<<<<< 6e94d0fc835c0bb6d44a7def339e4e07d350083d
   const messages = errs.filter(function(err) {
     return err !== undefined;
   });
@@ -110,6 +115,12 @@ exports.signUp = (req, res, next) => {
   if (messages.length) {
     next(errors.invalidSignup(messages));
 >>>>>>> switch let for const
+=======
+  const messages = errs.filter(err => err !== '');
+
+  if (messages.length) {
+    next(errors.invalidSignup(messages));
+>>>>>>> fixed requested changes
   }
 
   return bcrypt
