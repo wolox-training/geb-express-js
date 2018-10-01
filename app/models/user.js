@@ -29,5 +29,14 @@ module.exports = (sequelize, DataTypes) => {
   users.associate = function(models) {
     // associations can be defined here
   };
+
+  users.newUser = user =>
+    users.create(user).catch(err => {
+      if (err.name === 'SequelizeUniqueConstraintError') {
+        throw errors.userAlreadyExists();
+      }
+      throw errors.defaultDatabase(err);
+    });
+
   return users;
 };
