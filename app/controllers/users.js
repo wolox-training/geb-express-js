@@ -13,7 +13,11 @@ exports.logIn = (req, res, next) => {
         .then(valid => {
           if (valid) {
             const token = sessionManager.encode({ user: u.username });
+<<<<<<< ab92dab83dedcf2adf54f6515b15815c1e1384ce
             res.set(sessionManager.HEADER,token);
+=======
+            res.set(sessionManager.HEADER, token);
+>>>>>>> pre implementation of the signIn module
             res.status(200);
             res.end();
           } else {
