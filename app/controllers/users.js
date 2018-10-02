@@ -36,7 +36,7 @@ exports.signUp = (req, res, next) => {
   const messages = errs.filter(err => err !== '');
 
   if (messages.length) {
-    next(errors.invalidSignup(errs));
+    next(errors.invalidSignup(messages));
   }
 
   return bcrypt
