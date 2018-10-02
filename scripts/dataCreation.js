@@ -6,6 +6,12 @@ exports.execute = () => {
     .hash('password28', 10)
     .then(hash => {
       users.newUser({
+        firstName: 'juan',
+        lastName: 'notdoe',
+        email: 'perhapsjohndoe@wolox.com.ar',
+        password: hash
+      });
+      users.newUser({
         firstName: 'john',
         lastName: 'doe',
         email: 'johndoe@wolox.com.ar',
