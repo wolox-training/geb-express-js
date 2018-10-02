@@ -6,6 +6,7 @@ const users = require('../models').users,
   sessionManager = require('../services/sessionManager');
 
 exports.logIn = (req, res, next) => {
+<<<<<<< cd30aaf5e93295fce27619ba86593d0d1b340db2
   return users.findUser(req.body.email).then(u => {
     if (u) {
 <<<<<<< 1b6510ab333d23b17d7467e8d49016b67ab42d16
@@ -45,6 +46,26 @@ exports.logIn = (req, res, next) => {
     next(err);
 >>>>>>> signIn module w/tests ok
   });
+=======
+  return users
+    .findUser(req.body.email)
+    .then(u => {
+      if (u) {
+        return bcrypt.compare(req.body.password, u.password).then(valid => {
+          if (valid) {
+            const token = sessionManager.encode({ user: u.username });
+            res.set(sessionManager.HEADER, token);
+            res.status(200);
+            res.end();
+          } else next(errors.invalidPassword());
+        });
+      } else next(errors.invalidUsername());
+    })
+    .catch(err => {
+      logger.info('DB Error');
+      next(err);
+    });
+>>>>>>> fix typo
 };
 
 exports.signUp = (req, res, next) => {
