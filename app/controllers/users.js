@@ -6,21 +6,24 @@ const users = require('../models').users,
   sessionManager = require('../services/sessionManager');
 
 exports.logIn = (req, res, next) => {
-  return users.findUser(req.body.email).then(u => {
-    if (u) {
-      return bcrypt.compare(req.body.password, u.password).then(valid => {
-        if (valid) {
-          const token = sessionManager.encode({ user: u.username });
-          res.set(sessionManager.HEADER, token);
-          res.status(200);
-          res.end();
-        } else next(errors.invalidPassword());
-      });
-    } else next(errors.invalidUsername());
-  }).catch(err =>{
-    logger.info('DB Error');
-    next(err);
-  });
+  return users
+    .findUser(req.body.email)
+    .then(u => {
+      if (u) {
+        return bcrypt.compare(req.body.password, u.password).then(valid => {
+          if (valid) {
+            const token = sessionManager.encode({ user: u.username });
+            res.set(sessionManager.HEADER, token);
+            res.status(200);
+            res.end();
+          } else next(errors.invalidPassword());
+        });
+      } else next(errors.invalidUsername());
+    })
+    .catch(err => {
+      logger.info('DB Error');
+      next(err);
+    });
 };
 
 exports.signUp = (req, res, next) => {
