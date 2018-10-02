@@ -1,5 +1,4 @@
 const users = require('../models').users,
-  jsonwt = 
   bcrypt = require('bcryptjs'),
   helpers = require('../helpers'),
   logger = require('../logger'),
@@ -11,19 +10,18 @@ exports.logIn = (req, res, next) => {
     if (u) {
       bcrypt
         .compare(req.body.password, u.password)
-        .then( valid => {
-          if (valid){
-
-            const auth = sessionManager.encode({username : u.username});
-
+        .then(valid => {
+          if (valid) {
+            const token = sessionManager.encode({ user: u.username });
+            res.set(sessionManager.HEADER, token);
             res.status(200);
             res.end();
-          }
-          else{
+          } else {
             next(errors.invalidUser());
           }
         })
         .catch(err => {
+          console.log(err);
           next(errors.invalidPassword());
         });
     }
