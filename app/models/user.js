@@ -30,11 +30,10 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
   };
 
-  users.findUser = user => {
-    return users.findOne({ where: { email: user } }).catch(err => {
+  users.findUser = email =>
+    users.findOne({ where: { email } }).catch(err => {
       throw errors.defaultDatabase(err);
     });
-  };
 
   users.newUser = user =>
     users.create(user).catch(err => {
