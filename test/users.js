@@ -1,6 +1,7 @@
 const chai = require('chai'),
   dictum = require('dictum.js'),
   server = require('./../app'),
+  sessionManager = require('./../app/services/sessionManager'),
   should = chai.should();
 
 describe('users', () => {
@@ -15,6 +16,7 @@ describe('users', () => {
         })
         .then(res => {
           res.should.have.status(200);
+          res.headers.should.have.property(sessionManager.HEADER);
           dictum.chai(res);
         });
     });

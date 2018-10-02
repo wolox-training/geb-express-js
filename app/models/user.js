@@ -30,14 +30,18 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
   };
 
+<<<<<<< 9073c1a5d1e6db048476aee7a8b5cb4596542a0e
 <<<<<<< 18ef2cd05c0f0ebdf664b694ae2017bb01f88d23
 <<<<<<< 747066e5874edef1326a42baa4b2de28b1a5d574
 =======
   users.findUser = user => {
     return users.findOne({ where: { email: user } }).catch(err => {
+=======
+  users.findUser = email =>
+    users.findOne({ where: { email } }).catch(err => {
+>>>>>>> fixed requested changes
       throw errors.defaultDatabase(err);
     });
-  };
 
 >>>>>>> implemeting the signIn module, lacks the token creation
   users.newUser = user =>
