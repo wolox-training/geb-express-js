@@ -8,7 +8,7 @@ exports.execute = () => {
       users.newUser({
         firstName: 'juan',
         lastName: 'notdoe',
-        email: 'perhapsjohndoe@wolox.com.ar',
+        email: 'notdoe@wolox.com.ar',
         password: hash
       });
       users.newUser({

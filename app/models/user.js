@@ -26,9 +26,11 @@ module.exports = (sequelize, DataTypes) => {
       underscored: true
     }
   );
-  users.associate = function(models) {
-    // associations can be defined here
-  };
+
+  users.listAll = () =>
+    users.findAll({ attributes: ['firstName', 'lastName', 'email'], limit: 4 }).catch(err => {
+      throw errors.defaultDatabase(err);
+    });
 
   users.findUser = email =>
     users.findOne({ where: { email } }).catch(err => {
