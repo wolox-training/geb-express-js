@@ -5,6 +5,40 @@ const chai = require('chai'),
   should = chai.should();
 
 describe('users', () => {
+  describe('/users GET', () => {
+    it('should return all data ok', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({
+          email: 'notdoe@wolox.com.ar',
+          password: 'password28'
+        })
+        .then(logged => {
+          return chai
+            .request(server)
+            .get('/users')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .then(res => {
+              console.log(res.body[0]);
+              res.should.be.json;
+              res.body.should.be.a('array');
+              res.body[0].email.should.equal('notdoe@wolox.com.ar');
+              res.should.have.status(200);
+              dictum.chai(res);
+            });
+        });
+    });
+    it('should fail because token is missing', () => {
+      return chai
+        .request(server)
+        .get('/users')
+        .catch(err => {
+          err.should.have.status(401);
+        });
+    });
+  });
+
   describe('/users/sessions POST', () => {
     it('should login ok', () => {
       return chai
@@ -25,7 +59,7 @@ describe('users', () => {
         .request(server)
         .post('/users/sessions')
         .send({
-          email: 'johndoe@wolox.com.ar',
+          email: 'almostjohndoe@wolox.com.ar',
           password: 'johndoepassword'
         })
         .catch(err => {

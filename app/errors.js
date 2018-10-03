@@ -26,6 +26,9 @@ exports.USER_ALREADY_EXISTS = 'user_already_exists';
 exports.userAlreadyExists = () =>
   internalError('The email was already used for another user.', exports.USER_ALREADY_EXISTS);
 
+exports.INVALID_AUTH = 'invalid auth';
+exports.invalidAuth = () => internalError('User has no rights for this action', exports.INVALID_AUTH);
+
 exports.INVALID_EMAIL = 'invalid_email';
 exports.invalidEmail = () => internalError('The submitted email address is invalid.', exports.INVALID_EMAIL);
 

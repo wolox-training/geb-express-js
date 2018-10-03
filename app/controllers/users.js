@@ -1,9 +1,26 @@
 const users = require('../models').users,
   bcrypt = require('bcryptjs'),
+  paginate = require('express-paginate'),
   helpers = require('../helpers'),
   logger = require('../logger'),
   errors = require('../errors'),
   sessionManager = require('../services/sessionManager');
+
+exports.list = (req, res, next) => {
+  const encoded = req.get('Authorization');
+  if (!encoded || !sessionManager.decode(encoded)) next(errors.invalidAuth());
+
+  return users
+    .listAll()
+    .then(data => {
+      res.status(200).send(data);
+      res.end();
+    })
+    .catch(err => {
+      logger.info('DB Error');
+      next(err);
+    });
+};
 
 exports.logIn = (req, res, next) => {
 <<<<<<< cd30aaf5e93295fce27619ba86593d0d1b340db2
@@ -55,6 +72,7 @@ exports.logIn = (req, res, next) => {
         if (!valid) next(errors.invalidPassword());
         const token = sessionManager.encode({ user: u.username });
         res.set(sessionManager.HEADER, token);
+        res.send(u);
         res.status(200);
         res.end();
       });

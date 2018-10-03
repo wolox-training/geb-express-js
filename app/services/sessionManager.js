@@ -8,4 +8,9 @@ exports.HEADER = config.common.session.header_name;
 exports.encode = payload => jwt.sign(payload, SECRET)
 =======
 exports.encode = payload => jwt.sign(payload, SECRET);
+<<<<<<< 602ab905e5b33293c3658bb2146b14bb6dafa496
 >>>>>>> pre implementation of the signIn module
+=======
+
+exports.decode = token => jwt.verify(token, SECRET);
+>>>>>>> list all functions but older test is throwing db error
