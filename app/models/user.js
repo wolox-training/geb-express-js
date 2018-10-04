@@ -27,10 +27,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  users.listAll = () =>
-    users.findAll({ attributes: ['firstName', 'lastName', 'email'], limit: 4 }).catch(err => {
-      throw errors.defaultDatabase(err);
-    });
+  users.listAll = (max, start) =>
+    users
+      .findAll({ attributes: ['firstName', 'lastName', 'email'], limit: max, offset: start })
+      .catch(err => {
+        throw errors.defaultDatabase(err);
+      });
 
   users.findUser = email =>
     users.findOne({ where: { email } }).catch(err => {

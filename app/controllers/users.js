@@ -7,11 +7,14 @@ const users = require('../models').users,
   sessionManager = require('../services/sessionManager');
 
 exports.list = (req, res, next) => {
-  const encoded = req.headers.authorization || false;
+  const encoded = req.headers.authorization,
+    limit = 2,
+    offset = 0;
+
   if (!encoded || !sessionManager.decode(encoded)) return next(errors.invalidAuth());
 
   return users
-    .listAll()
+    .listAll(limit, offset)
     .then(data => {
       res.status(200).send(data);
     })
