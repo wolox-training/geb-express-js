@@ -7,14 +7,13 @@ const users = require('../models').users,
   sessionManager = require('../services/sessionManager');
 
 exports.list = (req, res, next) => {
-  const encoded = req.get('Authorization');
-  if (!encoded || !sessionManager.decode(encoded)) next(errors.invalidAuth());
+  const encoded = req.headers.authorization || false;
+  if (!encoded || !sessionManager.decode(encoded)) return next(errors.invalidAuth());
 
   return users
     .listAll()
     .then(data => {
       res.status(200).send(data);
-      res.end();
     })
     .catch(err => {
       logger.info('DB Error');
@@ -74,7 +73,6 @@ exports.logIn = (req, res, next) => {
         res.set(sessionManager.HEADER, token);
         res.send(u);
         res.status(200);
-        res.end();
       });
     })
     .catch(err => {
