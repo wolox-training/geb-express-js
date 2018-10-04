@@ -10,20 +10,38 @@ describe('users', () => {
       return chai
         .request(server)
         .post('/users/sessions')
-        .send({ email: 'johndoe@wolox.com.ar', password: 'password28' })
+        .send({ email: 'johndoe3@wolox.com.ar', password: 'password28' })
         .then(logged => {
           return chai
             .request(server)
             .get('/users')
             .catch(err => err.should.have.status(401));
-        });
+        })
+    });
+
+    it('should get limited data', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'johndoe2@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .get('/users')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .then(res => {
+              res.should.be.json;
+              res.should.have.length(2);
+              res.should.have.status(200);
+            });
+        })
     });
 
     it('should get all data', () => {
       return chai
         .request(server)
         .post('/users/sessions')
-        .send({ email: 'notdoe@wolox.com.ar', password: 'password28' })
+        .send({ email: 'johndoe@wolox.com.ar', password: 'password28' })
         .then(logged => {
           return chai
             .request(server)
@@ -43,14 +61,14 @@ describe('users', () => {
         .request(server)
         .post('/users/sessions')
         .send({
-          email: 'notdoe@wolox.com.ar',
+          email: 'juandoe@wolox.com.ar',
           password: 'password28'
         })
         .then(res => {
           res.should.have.status(200);
           res.headers.should.have.property(sessionManager.HEADER);
           dictum.chai(res);
-        });
+        })
     });
 
     it('should not log with wrong password', () => {
