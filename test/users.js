@@ -6,35 +6,33 @@ const chai = require('chai'),
 
 describe('users', () => {
   describe('/users GET', () => {
-    it('should return all data ok', () => {
+    it('should fail, headers are not sent', () => {
       return chai
         .request(server)
         .post('/users/sessions')
-        .send({
-          email: 'notdoe@wolox.com.ar',
-          password: 'password28'
-        })
+        .send({ email: 'johndoe@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .get('/users')
+            .catch(err => err.should.have.status(401));
+        });
+    });
+
+    it('should get all data', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'notdoe@wolox.com.ar', password: 'password28' })
         .then(logged => {
           return chai
             .request(server)
             .get('/users')
             .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
             .then(res => {
-              console.log(res.body[0]);
               res.should.be.json;
-              res.body.should.be.a('array');
-              res.body[0].email.should.equal('notdoe@wolox.com.ar');
               res.should.have.status(200);
-              dictum.chai(res);
             });
-        });
-    });
-    it('should fail because token is missing', () => {
-      return chai
-        .request(server)
-        .get('/users')
-        .catch(err => {
-          err.should.have.status(401);
         });
     });
   });
@@ -45,7 +43,7 @@ describe('users', () => {
         .request(server)
         .post('/users/sessions')
         .send({
-          email: 'johndoe@wolox.com.ar',
+          email: 'notdoe@wolox.com.ar',
           password: 'password28'
         })
         .then(res => {
@@ -54,6 +52,7 @@ describe('users', () => {
           dictum.chai(res);
         });
     });
+
     it('should not log with wrong password', () => {
       return chai
         .request(server)
