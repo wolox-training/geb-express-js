@@ -2,7 +2,27 @@ const users = require('../models').users,
   bcrypt = require('bcryptjs'),
   helpers = require('../helpers'),
   logger = require('../logger'),
-  errors = require('../errors');
+  errors = require('../errors'),
+  sessionManager = require('../services/sessionManager');
+
+exports.logIn = (req, res, next) => {
+  return users
+    .findUser(req.body.email)
+    .then(u => {
+      if (!u) return next(errors.invalidUsername());
+      return bcrypt.compare(req.body.password, u.password).then(valid => {
+        if (!valid) next(errors.invalidPassword());
+        const token = sessionManager.encode({ user: u.username });
+        res.set(sessionManager.HEADER, token);
+        res.status(200);
+        res.end();
+      });
+    })
+    .catch(err => {
+      logger.info('DB Error');
+      next(err);
+    });
+};
 
 exports.signUp = (req, res, next) => {
   const saltRounds = 5;

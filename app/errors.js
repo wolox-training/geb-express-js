@@ -32,5 +32,8 @@ exports.invalidEmail = () => internalError('The submitted email address is inval
 exports.INVALID_PASSWORD = 'invalid_password';
 exports.invalidPassword = () => internalError('Submitted password is invalid.', exports.INVALID_PASSWORD);
 
+exports.INVALID_USERNAME = 'invalid_username';
+exports.invalidUsername = () => internalError('Submitted username is invalid.', exports.INVALID_USERNAME);
+
 exports.INVALID_SIGNUP = 'invalid_signup';
 exports.invalidSignup = message => internalError(message, exports.INVALID_SIGNUP);

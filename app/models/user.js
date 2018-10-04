@@ -22,13 +22,18 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     {
-      paranoid: true,
+      paranoid: false,
       underscored: true
     }
   );
   users.associate = function(models) {
     // associations can be defined here
   };
+
+  users.findUser = email =>
+    users.findOne({ where: { email } }).catch(err => {
+      throw errors.defaultDatabase(err);
+    });
 
   users.newUser = user =>
     users.create(user).catch(err => {
