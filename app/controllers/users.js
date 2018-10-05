@@ -5,12 +5,13 @@ const users = require('../models').users,
   logger = require('../logger'),
   errors = require('../errors'),
   sessionManager = require('../services/sessionManager'),
-  LIMIT_DEFAULT = 50;
+  LIMIT_DEFAULT = 50,
+  PAGE_DEFAULT = 1;
 
 exports.list = (req, res, next) => {
   const encoded = req.headers.authorization,
     limit = req.query.limit || LIMIT_DEFAULT,
-    page = req.query.page || 1;
+    page = req.query.page || PAGE_DEFAULT;
 
   if (!encoded || !sessionManager.decode(encoded)) return next(errors.invalidAuth());
 
