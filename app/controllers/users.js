@@ -5,8 +5,8 @@ const users = require('../models').users,
   logger = require('../logger'),
   errors = require('../errors'),
   sessionManager = require('../services/sessionManager'),
-  LIMIT_DEFAULT = 10,
-  OFFSET_DEFAULT = 0;
+  LIMIT_DEFAULT = 50,
+  OFFSET_DEFAULT = 20;
 
 exports.list = (req, res, next) => {
   const encoded = req.headers.authorization,
