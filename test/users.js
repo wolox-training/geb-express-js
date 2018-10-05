@@ -5,13 +5,80 @@ const chai = require('chai'),
   should = chai.should();
 
 describe('users', () => {
+  describe('/users GET', () => {
+    it('should fail, headers are not sent', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'johndoe3@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .get('/users')
+            .catch(err => err.should.have.status(401));
+        });
+    });
+
+    it('should make offset be bigger than all records atm', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'johndoe2@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .get('/users?page=2')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .then(res => {
+              res.should.be.json;
+              res.body.length.should.equal(0);
+              res.should.have.status(200);
+            });
+        });
+    });
+
+    it('should get limited data w/ offset', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'johndoe2@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .get('/users?limit=2')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .then(res => {
+              res.body.length.should.equal(2);
+              res.should.have.status(200);
+            });
+        });
+    });
+
+    it('should get all data default limit value and no offset', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'johndoe@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .get('/users')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .then(res => {
+              res.should.be.json;
+              res.should.have.status(200);
+            });
+        });
+    });
+  });
+
   describe('/users/sessions POST', () => {
     it('should login ok', () => {
       return chai
         .request(server)
         .post('/users/sessions')
         .send({
-          email: 'johndoe@wolox.com.ar',
+          email: 'juandoe@wolox.com.ar',
           password: 'password28'
         })
         .then(res => {
@@ -20,12 +87,13 @@ describe('users', () => {
           dictum.chai(res);
         });
     });
+
     it('should not log with wrong password', () => {
       return chai
         .request(server)
         .post('/users/sessions')
         .send({
-          email: 'johndoe@wolox.com.ar',
+          email: 'almostjohndoe@wolox.com.ar',
           password: 'johndoepassword'
         })
         .catch(err => {

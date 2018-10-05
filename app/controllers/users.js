@@ -1,9 +1,30 @@
 const users = require('../models').users,
+  paginate = require('express-paginate'),
   bcrypt = require('bcryptjs'),
   helpers = require('../helpers'),
   logger = require('../logger'),
   errors = require('../errors'),
-  sessionManager = require('../services/sessionManager');
+  sessionManager = require('../services/sessionManager'),
+  LIMIT_DEFAULT = 50,
+  PAGE_DEFAULT = 1;
+
+exports.list = (req, res, next) => {
+  const encoded = req.headers.authorization,
+    limit = req.query.limit || LIMIT_DEFAULT,
+    page = req.query.page || PAGE_DEFAULT;
+
+  if (!encoded || !sessionManager.decode(encoded)) return next(errors.invalidAuth());
+
+  return users
+    .listAll(page, limit)
+    .then(data => {
+      res.status(200).send(data);
+    })
+    .catch(err => {
+      logger.info('DB Error');
+      next(err);
+    });
+};
 
 exports.logIn = (req, res, next) => {
   return users
@@ -14,8 +35,8 @@ exports.logIn = (req, res, next) => {
         if (!valid) next(errors.invalidPassword());
         const token = sessionManager.encode({ user: u.username });
         res.set(sessionManager.HEADER, token);
+        res.send(u);
         res.status(200);
-        res.end();
       });
     })
     .catch(err => {
