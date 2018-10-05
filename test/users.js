@@ -16,7 +16,7 @@ describe('users', () => {
             .request(server)
             .get('/users')
             .catch(err => err.should.have.status(401));
-        })
+        });
     });
 
     it('should get limited data', () => {
@@ -34,7 +34,7 @@ describe('users', () => {
               res.should.have.length(2);
               res.should.have.status(200);
             });
-        })
+        });
     });
 
     it('should get all data', () => {
@@ -68,7 +68,7 @@ describe('users', () => {
           res.should.have.status(200);
           res.headers.should.have.property(sessionManager.HEADER);
           dictum.chai(res);
-        })
+        });
     });
 
     it('should not log with wrong password', () => {
