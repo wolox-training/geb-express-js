@@ -27,9 +27,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  users.listAll = (max, start) =>
+  users.listAll = (page, lim) =>
     users
-      .findAll({ attributes: ['firstName', 'lastName', 'email'], limit: max, offset: start })
+      .findAll({ attributes: ['firstName', 'lastName', 'email'], limit: lim, offset: (page - 1) * lim })
       .catch(err => {
         throw errors.defaultDatabase(err);
       });
