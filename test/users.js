@@ -27,17 +27,52 @@ describe('users', () => {
         .then(logged => {
           return chai
             .request(server)
-            .get('/users')
+            .get('/users?limit=2')
             .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
             .then(res => {
               res.should.be.json;
-              res.should.have.length(2);
+              res.body.length.should.equal(2);
               res.should.have.status(200);
             });
         });
     });
 
-    it('should get all data', () => {
+    it('should get all data with offset', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'johndoe2@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .get('/users?offset=2')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .then(res => {
+              res.should.be.json;
+              res.body.length.should.equal(3);
+              res.should.have.status(200);
+            });
+        });
+    });
+
+    it('should get limited data w/ offset', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'johndoe2@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .get('/users?limit=2&offset=2')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .then(res => {
+              res.body.length.should.equal(2);
+              res.should.have.status(200);
+            });
+        });
+    });
+
+    it('should get all data default limit value and no offset', () => {
       return chai
         .request(server)
         .post('/users/sessions')

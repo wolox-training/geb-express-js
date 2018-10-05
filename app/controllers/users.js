@@ -1,15 +1,17 @@
 const users = require('../models').users,
-  bcrypt = require('bcryptjs'),
   paginate = require('express-paginate'),
+  bcrypt = require('bcryptjs'),
   helpers = require('../helpers'),
   logger = require('../logger'),
   errors = require('../errors'),
-  sessionManager = require('../services/sessionManager');
+  sessionManager = require('../services/sessionManager'),
+  LIMIT_DEFAULT = 10,
+  OFFSET_DEFAULT = 0;
 
 exports.list = (req, res, next) => {
   const encoded = req.headers.authorization,
-    limit = 2,
-    offset = 0;
+    limit = req.query.limit || LIMIT_DEFAULT,
+    offset = req.query.offset || OFFSET_DEFAULT;
 
   if (!encoded || !sessionManager.decode(encoded)) return next(errors.invalidAuth());
 
