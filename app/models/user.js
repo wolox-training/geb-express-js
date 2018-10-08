@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
       password: {
         type: DataTypes.STRING,
         allowNull: false
+      },
+      role: {
+        type: DataTypes.STRING,
+        allowNull: false
       }
     },
     {
@@ -26,6 +30,11 @@ module.exports = (sequelize, DataTypes) => {
       underscored: true
     }
   );
+
+  users.updateAdmin = user =>
+    users.upsert(user).catch(err => {
+      throw errors.defaultDatabase(err);
+    });
 
   users.listAll = (page, lim) =>
     users
