@@ -19,7 +19,7 @@ describe('users', () => {
         });
     });
 
-    it('should make offset be bigger than all records atm', () => {
+    it('should get all data with offset', () => {
       return chai
         .request(server)
         .post('/users/sessions')
@@ -27,11 +27,12 @@ describe('users', () => {
         .then(logged => {
           return chai
             .request(server)
-            .get('/users?page=2')
+            .get('/users')
             .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
             .then(res => {
+              console.log(res.body);
               res.should.be.json;
-              res.body.length.should.equal(0);
+              res.body.length.should.equal(5);
               res.should.have.status(200);
             });
         });
@@ -45,7 +46,7 @@ describe('users', () => {
         .then(logged => {
           return chai
             .request(server)
-            .get('/users?limit=2')
+            .get('/users?limit=2&offset=2')
             .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
             .then(res => {
               res.body.length.should.equal(2);
