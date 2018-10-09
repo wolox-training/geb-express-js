@@ -5,10 +5,13 @@ const users = require('../models').users,
   logger = require('../logger'),
   errors = require('../errors'),
   sessionManager = require('../services/sessionManager'),
+<<<<<<< 2609a30a99971c0f400e9d16f16f6b93f4cbf073
 <<<<<<< 00941cf33ee7aebe0280efcfe61f8350d3e6aca4
   LIMIT_DEFAULT = 50,
   PAGE_DEFAULT = 1;
 =======
+=======
+>>>>>>> fixed master merge typo
   saltRounds = 5,
   ROLE_DEFAULT = 'user',
   ROLE_ADMIN = 'admin',
