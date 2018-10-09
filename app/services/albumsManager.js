@@ -56,6 +56,7 @@ exports.listAlbums = () => {
 const fetch = require('node-fetch');
 
 exports.listAlbums = () => {
+<<<<<<< c8729706048f6bc23d19346af955185803937897
 <<<<<<< 56f7fcaf9fd287948249c8c08170302847c04adb
 <<<<<<< 62e99d33b9f3b2901b49a21c2dfdbb201c234c75
   return fetch('https://jsonplaceholder.typicode.com/albums').then(response => response.json());
@@ -64,15 +65,26 @@ exports.listAlbums = () => {
 =======
 <<<<<<< b217b43ddd7a0e5ddb6713a9e4acf50f4e540603
 >>>>>>> implemented list all albums with tests
+=======
+<<<<<<< 51737bf6ed2ca2ecab94e22c60dc7f88351419fc
+<<<<<<< b217b43ddd7a0e5ddb6713a9e4acf50f4e540603
+=======
+>>>>>>> modified albums service, users now see reduced info from the fetch
+>>>>>>> modified albums service, users now see reduced info from the fetch
   return fetch('https://jsonplaceholder.typicode.com/albums').then(response =>
     response.json().then(albums => {
       const titles = [];
       albums.forEach(album => {
+<<<<<<< 51737bf6ed2ca2ecab94e22c60dc7f88351419fc
         titles.push({ id: album.id, album: album.title });
+=======
+        titles.push(album.title);
+>>>>>>> modified albums service, users now see reduced info from the fetch
       });
       return titles;
     })
   );
+<<<<<<< c8729706048f6bc23d19346af955185803937897
 <<<<<<< 56f7fcaf9fd287948249c8c08170302847c04adb
 >>>>>>> modified albums service, users now see reduced info from the fetch
 =======
@@ -80,4 +92,12 @@ exports.listAlbums = () => {
   return fetch('https://jsonplaceholder.typicode.com/albums').then(response => response.json());
 >>>>>>> implemented list all albums with tests
 >>>>>>> implemented list all albums with tests
+=======
+<<<<<<< 51737bf6ed2ca2ecab94e22c60dc7f88351419fc
+=======
+  return fetch('https://jsonplaceholder.typicode.com/albums').then(response => response.json());
+>>>>>>> implemented list all albums with tests
+=======
+>>>>>>> modified albums service, users now see reduced info from the fetch
+>>>>>>> modified albums service, users now see reduced info from the fetch
 };
