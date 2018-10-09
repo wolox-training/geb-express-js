@@ -26,11 +26,10 @@ exports.USER_ALREADY_EXISTS = 'user_already_exists';
 exports.userAlreadyExists = () =>
   internalError('The email was already used for another user.', exports.USER_ALREADY_EXISTS);
 
-exports.FORBIDDEN_ACTION = 'forbidden action';
-exports.forbiddenAction = () =>
-  internalError('Type of request is not allowed to this user.', exports.FORBIDDEN_ACTION);
+exports.FORBIDDEN_ACTION = 'user_has_no_rights';
+exports.forbiddenAction = message => internalError(message, exports.FORBIDDEN_ACTION);
 
-exports.INVALID_AUTH = 'invalid auth';
+exports.INVALID_AUTH = 'invalid_auth';
 exports.invalidAuth = () => internalError('User has no rights for this action', exports.INVALID_AUTH);
 
 exports.INVALID_EMAIL = 'invalid_email';

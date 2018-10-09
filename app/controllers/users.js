@@ -14,8 +14,8 @@ const users = require('../models').users,
 =======
 >>>>>>> fixed master merge typo
   saltRounds = 5,
-  ROLE_DEFAULT = 'user',
-  ROLE_ADMIN = 'admin',
+  ADMIN_ROLE = 'admin',
+  DEFAULT_ROLE = 'user',
   LIMIT_DEFAULT = 50,
   PAGE_DEFAULT = 1;
 
@@ -43,7 +43,10 @@ exports.admin = (req, res, next) => {
   return users
     .findUser(decoded.payload.user)
     .then(u => {
-      if (!(u.role === ROLE_ADMIN)) return next(errors.forbiddenAction());
+      const privileges = helpers.checkRole(u.role);
+      if (privileges.length) {
+        next(errors.forbiddenAction(privileges));
+      }
 
       const messages = helpers.validateSign(req.body);
       if (messages.length) {
@@ -56,7 +59,7 @@ exports.admin = (req, res, next) => {
           lastName: req.body.lastName,
           email: req.body.email,
           password: hash,
-          role: ROLE_ADMIN
+          role: ADMIN_ROLE
         };
 
         return users.updateAdmin(user).then(() => {
@@ -284,7 +287,7 @@ exports.signUp = (req, res, next) => {
         lastName: req.body.lastName,
         email: req.body.email,
         password: hash,
-        role: ROLE_DEFAULT
+        role: DEFAULT_ROLE
       };
 <<<<<<< 09bef0e6632521d24cfee84937f43ac1cbf89364
       return users.newUser(user).then(u => {
