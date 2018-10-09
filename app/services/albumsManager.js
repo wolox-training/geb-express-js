@@ -56,6 +56,18 @@ exports.listAlbums = () => {
 const fetch = require('node-fetch');
 
 exports.listAlbums = () => {
+<<<<<<< 62e99d33b9f3b2901b49a21c2dfdbb201c234c75
   return fetch('https://jsonplaceholder.typicode.com/albums').then(response => response.json());
 >>>>>>> implemented list all albums with tests
+=======
+  return fetch('https://jsonplaceholder.typicode.com/albums').then(response =>
+    response.json().then(albums => {
+      const titles = [];
+      albums.forEach(album => {
+        titles.push(album.title);
+      });
+      return titles;
+    })
+  );
+>>>>>>> modified albums service, users now see reduced info from the fetch
 };
