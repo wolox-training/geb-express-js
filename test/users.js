@@ -76,6 +76,43 @@ describe('albums', () => {
   });
 });
 
+describe('albums', () => {
+  describe('/albums GET', () => {
+    it('should get all albums', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'johndoe2@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .get('/albums')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .then(res => {
+              res.should.be.json;
+              res.should.have.status(200);
+            });
+        });
+    });
+
+    it('should not get list of albums, lacks auth', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'johndoe3@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .get('/albums')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .catch(err => {
+              err.should.have.status(401);
+            });
+        });
+    });
+  });
+});
+
 describe('users', () => {
   describe('/users/admin POST', () => {
     it('should not make a new admin with user privileges', () => {

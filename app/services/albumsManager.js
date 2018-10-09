@@ -1,3 +1,4 @@
+<<<<<<< 58d1928ddbf2fd99ecba847f5b6f688e7fa17a67
 const request = require('request'),
   options = {
     url: 'https://jsonplaceholder.typicode.com/albums',
@@ -51,4 +52,10 @@ exports.listAlbums = () => {
 >>>>>>> rebased from user_admin and fixed req changes, tests still missing
 =======
 >>>>>>> typo
+=======
+const fetch = require('node-fetch');
+
+exports.listAlbums = () => {
+  return fetch('https://jsonplaceholder.typicode.com/albums').then(response => response.json());
+>>>>>>> implemented list all albums with tests
 };
