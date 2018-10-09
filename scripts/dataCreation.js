@@ -8,10 +8,10 @@ exports.execute = () => {
       const data = [
         users.newUser({
           firstName: 'admin',
-          lastname: 'admin',
+          lastName: 'admin',
           email: 'admin@wolox.com.ar',
           password: hash,
-          role: 'user'
+          role: 'admin'
         }),
         users.newUser({
           firstName: 'juan',

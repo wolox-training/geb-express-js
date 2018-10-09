@@ -5,6 +5,76 @@ const chai = require('chai'),
   should = chai.should();
 
 describe('users', () => {
+  describe('/users/admin POST', () => {
+    it('should not make a new admin with user privileges', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'johndoe3@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .post('/users/admin')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .send({
+              firstName: 'John',
+              lastName: 'admin',
+              email: 'johnadmin@wolox.com.ar',
+              password: 'password28'
+            })
+            .catch(isAdmin => {
+              isAdmin.should.have.status(401);
+            });
+        });
+    });
+
+    it('should make a new user with admin privileges', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'admin@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          console.log(logged.headers[sessionManager.HEADER]);
+          return chai
+            .request(server)
+            .post('/users/admin')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .send({
+              firstName: 'John',
+              lastName: 'admin',
+              email: 'johnadmin@wolox.com.ar',
+              password: 'password28'
+            })
+            .then(isAdmin => {
+              isAdmin.should.have.status(200);
+            });
+        });
+    });
+
+    it('should modify user with admin privileges', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'admin@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          console.log(logged.headers[sessionManager.HEADER]);
+          return chai
+            .request(server)
+            .post('/users/admin')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .send({
+              firstName: 'Michael',
+              lastName: 'admin',
+              email: 'johnadmin@wolox.com.ar',
+              password: 'password28'
+            })
+            .then(isAdmin => {
+              isAdmin.should.have.status(200);
+            });
+        });
+    });
+  });
+
   describe('/users GET', () => {
     it('should fail, headers are not sent', () => {
       return chai
@@ -30,9 +100,8 @@ describe('users', () => {
             .get('/users')
             .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
             .then(res => {
-              console.log(res.body);
               res.should.be.json;
-              res.body.length.should.equal(5);
+              res.body.length.should.equal(6);
               res.should.have.status(200);
             });
         });

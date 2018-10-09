@@ -24,8 +24,7 @@ exports.admin = (req, res, next) => {
   return users
     .findUser(decoded.payload.user)
     .then(u => {
-      // PONELE UN ! PARA TESTEAR PORQUE NO PODES MODIFICAR LOS ROLES DESDE POSTMAN
-      if (u.role === ROLE_ADMIN) return next(errors.forbiddenAction());
+      if (!(u.role === ROLE_ADMIN)) return next(errors.forbiddenAction());
 
       const messages = helpers.validateSign(req.body);
       if (messages.length) {
@@ -135,6 +134,7 @@ exports.logIn = (req, res, next) => {
 };
 
 exports.signUp = (req, res, next) => {
+<<<<<<< e6de37e26cb328f7cd2d54a2feea82a6e3b22eef
 <<<<<<< 00941cf33ee7aebe0280efcfe61f8350d3e6aca4
   const saltRounds = 5;
 <<<<<<< 0c57f48aac77faa2d2bb3a56f05e92848a91ed0c
@@ -248,6 +248,9 @@ exports.signUp = (req, res, next) => {
 >>>>>>> switch let for const
 =======
   const messages = errs.filter(err => err !== '');
+=======
+  const messages = helpers.validateSign(req.body);
+>>>>>>> admin module done w/ tests
 
   if (messages.length) {
     next(errors.invalidSignup(messages));
