@@ -5,7 +5,6 @@ const users = require('../models').users,
   logger = require('../logger'),
   errors = require('../errors'),
   sessionManager = require('../services/sessionManager'),
-
   saltRounds = 5,
   ROLE_DEFAULT = 'user',
   ROLE_ADMIN = 'admin',
