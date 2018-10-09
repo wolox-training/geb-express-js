@@ -75,11 +75,15 @@ exports.listAlbums = () => {
     response.json().then(albums => {
       const titles = [];
       albums.forEach(album => {
+<<<<<<< 7e6a1507e4c51f4df6bf2b449022f955e47453c0
 <<<<<<< 51737bf6ed2ca2ecab94e22c60dc7f88351419fc
         titles.push({ id: album.id, album: album.title });
 =======
         titles.push(album.title);
 >>>>>>> modified albums service, users now see reduced info from the fetch
+=======
+        titles.push({ id: album.id, album: album.title });
+>>>>>>> minor changes
       });
       return titles;
     })

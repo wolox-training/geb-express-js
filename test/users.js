@@ -106,11 +106,15 @@ describe('albums', () => {
             .get('/albums')
             .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
             .then(res => {
+<<<<<<< 7e6a1507e4c51f4df6bf2b449022f955e47453c0
 <<<<<<< 1b637a5fda56a671cb6185160047762d9fb0f9c7
               res.body.should.not.have.property('userId');
 =======
               res.body.should.not.have.property('id');
 >>>>>>> rebase user_admin, included tests
+=======
+              res.body.should.not.have.property('userId');
+>>>>>>> minor changes
               res.should.have.status(200);
             });
         });
