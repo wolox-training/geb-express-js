@@ -106,7 +106,7 @@ describe('albums', () => {
             .get('/albums')
             .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
             .then(res => {
-              res.body.should.not.have.property('id');
+              res.body.should.not.have.property('userId');
               res.should.have.status(200);
             });
         });

@@ -64,7 +64,7 @@ exports.listAlbums = () => {
     response.json().then(albums => {
       const titles = [];
       albums.forEach(album => {
-        titles.push(album.title);
+        titles.push({ id: album.id, album: album.title });
       });
       return titles;
     })
