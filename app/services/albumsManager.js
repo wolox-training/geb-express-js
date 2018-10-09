@@ -56,10 +56,14 @@ exports.listAlbums = () => {
 const fetch = require('node-fetch');
 
 exports.listAlbums = () => {
+<<<<<<< 56f7fcaf9fd287948249c8c08170302847c04adb
 <<<<<<< 62e99d33b9f3b2901b49a21c2dfdbb201c234c75
   return fetch('https://jsonplaceholder.typicode.com/albums').then(response => response.json());
 >>>>>>> implemented list all albums with tests
 =======
+=======
+<<<<<<< b217b43ddd7a0e5ddb6713a9e4acf50f4e540603
+>>>>>>> implemented list all albums with tests
   return fetch('https://jsonplaceholder.typicode.com/albums').then(response =>
     response.json().then(albums => {
       const titles = [];
@@ -69,5 +73,11 @@ exports.listAlbums = () => {
       return titles;
     })
   );
+<<<<<<< 56f7fcaf9fd287948249c8c08170302847c04adb
 >>>>>>> modified albums service, users now see reduced info from the fetch
+=======
+=======
+  return fetch('https://jsonplaceholder.typicode.com/albums').then(response => response.json());
+>>>>>>> implemented list all albums with tests
+>>>>>>> implemented list all albums with tests
 };
