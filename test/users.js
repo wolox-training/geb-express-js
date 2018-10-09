@@ -95,6 +95,23 @@ describe('albums', () => {
         });
     });
 
+    it('should get all albums, not able to see further information', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'johndoe2@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .get('/albums')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .then(res => {
+              res.body.should.not.have.property('id');
+              res.should.have.status(200);
+            });
+        });
+    });
+
     it('should not get list of albums, lacks auth', () => {
       return chai
         .request(server)
