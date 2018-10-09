@@ -20,8 +20,7 @@ exports.admin = (req, res, next) => {
   return users
     .findUser(decoded.payload.user)
     .then(u => {
-      // PONELE UN ! PARA TESTEAR PORQUE NO PODES MODIFICAR LOS ROLES DESDE POSTMAN
-      if (u.role === ROLE_ADMIN) return next(errors.forbiddenAction());
+      if (!(u.role === ROLE_ADMIN)) return next(errors.forbiddenAction());
 
       const messages = helpers.validateSign(req.body);
       if (messages.length) {
@@ -88,12 +87,7 @@ exports.logIn = (req, res, next) => {
 };
 
 exports.signUp = (req, res, next) => {
-  const errs = [];
-
-  errs.push(helpers.validateEmail(req.body.email));
-  errs.push(helpers.validatePassword(req.body.password));
-
-  const messages = errs.filter(err => err !== '');
+  const messages = helpers.validateSign(req.body);
 
   if (messages.length) {
     next(errors.invalidSignup(messages));
