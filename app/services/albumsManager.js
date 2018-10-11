@@ -6,6 +6,7 @@ const request = require('request'),
   };
 
 exports.listAlbums = () => {
+<<<<<<< f6ddf8d99aa45c8563e770bf3fc4faf8a49c3725
 <<<<<<< dbffc2c6a2e4d1cb9fd7e293d40ed2cb68ca785d
 <<<<<<< d02b817d7e4dcbcb769aa0655ce3e9b1a4d0cdcd
 <<<<<<< 3c59db3552377286f261a4ca9cc2f0b9572f729a
@@ -35,6 +36,8 @@ exports.listAlbums = () => {
 =======
 >>>>>>> modified albums service, users now see reduced info from the fetch
 =======
+=======
+>>>>>>> typo
   return new Promise(function(resolve, reject) {
     request(options, (error, response, body) => {
       if (error) reject(error);
@@ -44,5 +47,8 @@ exports.listAlbums = () => {
       }
     });
   });
+<<<<<<< f6ddf8d99aa45c8563e770bf3fc4faf8a49c3725
 >>>>>>> rebased from user_admin and fixed req changes, tests still missing
+=======
+>>>>>>> typo
 };
