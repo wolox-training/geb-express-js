@@ -1,3 +1,4 @@
+<<<<<<< 5d5b2db15f754c540eabb3fcf7a1737aa1af9746
 <<<<<<< 58d1928ddbf2fd99ecba847f5b6f688e7fa17a67
 const request = require('request'),
   options = {
@@ -66,6 +67,12 @@ exports.listAlbums = () => {
 <<<<<<< b217b43ddd7a0e5ddb6713a9e4acf50f4e540603
 >>>>>>> implemented list all albums with tests
 =======
+=======
+const request = require('request');
+
+exports.listAlbums = () => {
+<<<<<<< ab4969f74b889b2cdc45822cbc4af19dcb046d13
+>>>>>>> rebased from user_admin and fixed req changes, tests still missing
 <<<<<<< 51737bf6ed2ca2ecab94e22c60dc7f88351419fc
 <<<<<<< b217b43ddd7a0e5ddb6713a9e4acf50f4e540603
 =======
@@ -103,5 +110,19 @@ exports.listAlbums = () => {
 >>>>>>> implemented list all albums with tests
 =======
 >>>>>>> modified albums service, users now see reduced info from the fetch
+<<<<<<< 5d5b2db15f754c540eabb3fcf7a1737aa1af9746
 >>>>>>> modified albums service, users now see reduced info from the fetch
+=======
+=======
+  return new Promise(function(resolve, reject) {
+    request('https://jsonplaceholder.typicode.com/albums', (error, response, body) => {
+      if (error) reject(error);
+      else {
+        const albums = JSON.parse(body).map(key => ({ id: key.id, title: key.title }));
+        resolve(albums);
+      }
+    });
+  });
+>>>>>>> rebased from user_admin and fixed req changes, tests still missing
+>>>>>>> rebased from user_admin and fixed req changes, tests still missing
 };
