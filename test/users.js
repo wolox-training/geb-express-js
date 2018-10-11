@@ -89,6 +89,8 @@ describe('albums', () => {
             .get('/albums')
             .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
             .then(res => {
+              res.body[0].should.have.property('id');
+              res.body[0].should.have.property('title');
               res.should.be.json;
               res.should.have.status(200);
             });
