@@ -1,11 +1,15 @@
+<<<<<<< 7e38c948fce3a065b489add59db0021b0c0ed512
 <<<<<<< 5d5b2db15f754c540eabb3fcf7a1737aa1af9746
 <<<<<<< 58d1928ddbf2fd99ecba847f5b6f688e7fa17a67
+=======
+>>>>>>> fixed requested changes, added mock tests
 const request = require('request'),
   options = {
     url: 'https://jsonplaceholder.typicode.com/albums',
     method: 'GET',
     json: true
   };
+<<<<<<< 7e38c948fce3a065b489add59db0021b0c0ed512
 
 exports.listAlbums = () => {
 <<<<<<< f6ddf8d99aa45c8563e770bf3fc4faf8a49c3725
@@ -69,6 +73,8 @@ exports.listAlbums = () => {
 =======
 =======
 const request = require('request');
+=======
+>>>>>>> fixed requested changes, added mock tests
 
 exports.listAlbums = () => {
 <<<<<<< ab4969f74b889b2cdc45822cbc4af19dcb046d13
@@ -115,10 +121,10 @@ exports.listAlbums = () => {
 =======
 =======
   return new Promise(function(resolve, reject) {
-    request('https://jsonplaceholder.typicode.com/albums', (error, response, body) => {
+    request(options, (error, response, body) => {
       if (error) reject(error);
       else {
-        const albums = JSON.parse(body).map(key => ({ id: key.id, title: key.title }));
+        const albums = body.map(key => ({ id: key.id, title: key.title }));
         resolve(albums);
       }
     });
