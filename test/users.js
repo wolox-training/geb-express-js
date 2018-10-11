@@ -1,8 +1,24 @@
 const chai = require('chai'),
+  nock = require('nock'),
   dictum = require('dictum.js'),
   server = require('./../app'),
   sessionManager = require('./../app/services/sessionManager'),
-  should = chai.should();
+  should = chai.should(),
+  albumsApi = nock('https://jsonplaceholder.typicode.com')
+    .persist()
+    .get('/albums')
+    .reply(200, [
+      {
+        userId: '1',
+        id: '1',
+        title: 'quidem molestiae enim'
+      },
+      {
+        userId: '2',
+        id: '1',
+        title: 'a quidem molestiae enim'
+      }
+    ]);
 
 describe('albums', () => {
   describe('/albums GET', () => {

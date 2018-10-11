@@ -1,4 +1,9 @@
-const request = require('request');
+const request = require('request'),
+  options = {
+    url: 'https://jsonplaceholder.typicode.com/albums',
+    method: 'GET',
+    json: true
+  };
 
 exports.listAlbums = () => {
 <<<<<<< dbffc2c6a2e4d1cb9fd7e293d40ed2cb68ca785d
@@ -31,10 +36,10 @@ exports.listAlbums = () => {
 >>>>>>> modified albums service, users now see reduced info from the fetch
 =======
   return new Promise(function(resolve, reject) {
-    request('https://jsonplaceholder.typicode.com/albums', (error, response, body) => {
+    request(options, (error, response, body) => {
       if (error) reject(error);
       else {
-        const albums = JSON.parse(body).map(key => ({ id: key.id, title: key.title }));
+        const albums = body.map(key => ({ id: key.id, title: key.title }));
         resolve(albums);
       }
     });
