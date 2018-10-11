@@ -6,8 +6,8 @@
 const request = require('request'),
   options = {
     url: 'https://jsonplaceholder.typicode.com/albums',
-    method: 'GET'
-    // ,json: true
+    method: 'GET',
+    json: true
   };
 <<<<<<< 7e38c948fce3a065b489add59db0021b0c0ed512
 
@@ -48,7 +48,7 @@ exports.listAlbums = () => {
     request(options, (error, response, body) => {
       if (error) reject(error);
       else {
-        const albums = JSON.parse(body).map(key => ({ id: key.id, title: key.title }));
+        const albums = body.map(key => ({ id: key.id, title: key.title }));
         resolve(albums);
       }
     });
