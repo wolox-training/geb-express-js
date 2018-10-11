@@ -34,7 +34,6 @@ describe('users', () => {
         .post('/users/sessions')
         .send({ email: 'admin@wolox.com.ar', password: 'password28' })
         .then(logged => {
-          console.log(logged.headers[sessionManager.HEADER]);
           return chai
             .request(server)
             .post('/users/admin')
@@ -57,7 +56,6 @@ describe('users', () => {
         .post('/users/sessions')
         .send({ email: 'admin@wolox.com.ar', password: 'password28' })
         .then(logged => {
-          console.log(logged.headers[sessionManager.HEADER]);
           return chai
             .request(server)
             .post('/users/admin')
