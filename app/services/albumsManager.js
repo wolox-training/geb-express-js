@@ -77,6 +77,7 @@ const request = require('request');
 >>>>>>> fixed requested changes, added mock tests
 
 exports.listAlbums = () => {
+<<<<<<< 5fc13e6eb90dadf0a183e85a231365b5406bdf39
 <<<<<<< ab4969f74b889b2cdc45822cbc4af19dcb046d13
 >>>>>>> rebased from user_admin and fixed req changes, tests still missing
 <<<<<<< 51737bf6ed2ca2ecab94e22c60dc7f88351419fc
@@ -120,6 +121,8 @@ exports.listAlbums = () => {
 >>>>>>> modified albums service, users now see reduced info from the fetch
 =======
 =======
+=======
+>>>>>>> typo
   return new Promise(function(resolve, reject) {
     request(options, (error, response, body) => {
       if (error) reject(error);
@@ -129,6 +132,9 @@ exports.listAlbums = () => {
       }
     });
   });
+<<<<<<< 5fc13e6eb90dadf0a183e85a231365b5406bdf39
 >>>>>>> rebased from user_admin and fixed req changes, tests still missing
 >>>>>>> rebased from user_admin and fixed req changes, tests still missing
+=======
+>>>>>>> typo
 };
