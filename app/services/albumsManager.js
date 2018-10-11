@@ -1,6 +1,7 @@
-const fetch = require('node-fetch');
+const request = require('request');
 
 exports.listAlbums = () => {
+<<<<<<< dbffc2c6a2e4d1cb9fd7e293d40ed2cb68ca785d
 <<<<<<< d02b817d7e4dcbcb769aa0655ce3e9b1a4d0cdcd
 <<<<<<< 3c59db3552377286f261a4ca9cc2f0b9572f729a
 =======
@@ -28,4 +29,15 @@ exports.listAlbums = () => {
 >>>>>>> implemented list all albums with tests
 =======
 >>>>>>> modified albums service, users now see reduced info from the fetch
+=======
+  return new Promise(function(resolve, reject) {
+    request('https://jsonplaceholder.typicode.com/albums', (error, response, body) => {
+      if (error) reject(error);
+      else {
+        const albums = JSON.parse(body).map(key => ({ id: key.id, title: key.title }));
+        resolve(albums);
+      }
+    });
+  });
+>>>>>>> rebased from user_admin and fixed req changes, tests still missing
 };

@@ -4,7 +4,6 @@ const users = require('../models').users,
   helpers = require('../helpers'),
   auth = require('../middlewares/auth'),
   logger = require('../logger'),
-  auth = require('../middlewares/auths'),
   errors = require('../errors'),
   albumsManager = require('../services/albumsManager'),
   sessionManager = require('../services/sessionManager'),
@@ -46,13 +45,7 @@ exports.admin = (req, res, next) => {
     .findUser(decoded.payload.user)
     .then(u => {
       const privileges = auth.checkRole(u.role);
-<<<<<<< 2b005c002843860ce8ca8a234d81f37c3c3b8ddb
       if (privileges.length) next(errors.forbiddenAction());
-=======
-      if (privileges.length) {
-        next(errors.forbiddenAction(privileges));
-      }
->>>>>>> few changes
 
       const messages = helpers.validateSign(req.body);
       if (messages.length) next(errors.invalidSignup(messages));
