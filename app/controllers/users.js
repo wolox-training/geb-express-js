@@ -2,6 +2,7 @@ const users = require('../models').users,
   paginate = require('express-paginate'),
   bcrypt = require('bcryptjs'),
   helpers = require('../helpers'),
+  auth = require('../middlewares/auth'),
   logger = require('../logger'),
   errors = require('../errors'),
   albumsManager = require('../services/albumsManager'),
@@ -43,15 +44,11 @@ exports.admin = (req, res, next) => {
   return users
     .findUser(decoded.payload.user)
     .then(u => {
-      const privileges = helpers.checkRole(u.role);
-      if (privileges.length) {
-        next(errors.forbiddenAction(privileges));
-      }
+      const privileges = auth.checkRole(u.role);
+      if (privileges.length) next(errors.forbiddenAction());
 
       const messages = helpers.validateSign(req.body);
-      if (messages.length) {
-        next(errors.invalidSignup(messages));
-      }
+      if (messages.length) next(errors.invalidSignup(messages));
 
       return bcrypt.hash(req.body.password, saltRounds).then(hash => {
         const user = {
