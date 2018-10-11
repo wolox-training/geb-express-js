@@ -5,4 +5,4 @@ const users = require('../models').users,
 exports.checkRole = role => {
   if (role !== ADMIN_ROLE) return errors.FORBIDDEN_ACTION;
   return '';
-};  
+};
