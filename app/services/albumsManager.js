@@ -47,10 +47,8 @@ exports.listAlbums = () => {
   return new Promise(function(resolve, reject) {
     request(options, (error, response, body) => {
       if (error) reject(error);
-      else {
-        const albums = body.map(key => ({ id: key.id, title: key.title }));
-        resolve(albums);
-      }
+      const albums = body.map(key => ({ id: key.id, title: key.title }));
+      resolve(albums);
     });
   });
 <<<<<<< f6ddf8d99aa45c8563e770bf3fc4faf8a49c3725
