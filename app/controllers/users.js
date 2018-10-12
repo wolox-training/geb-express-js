@@ -13,40 +13,24 @@ const users = require('../models').users,
   PAGE_DEFAULT = 1;
 
 exports.admin = (req, res, next) => {
-  const token = req.headers.authorization;
-  if (!token || !sessionManager.verify(token)) return next(errors.invalidAuth());
+  const messages = helpers.validateSign(req.body);
+  if (messages.length) next(errors.invalidSignup(messages));
 
-  const decoded = sessionManager.decode(token);
+  return bcrypt.hash(req.body.password, saltRounds).then(hash => {
+    const user = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: hash,
+      role: ADMIN_ROLE
+    };
 
-  return users
-    .findUser(decoded.payload.user)
-    .then(u => {
-      const privileges = auth.checkRole(u.role);
-      if (privileges.length) next(errors.forbiddenAction());
-
-      const messages = helpers.validateSign(req.body);
-      if (messages.length) next(errors.invalidSignup(messages));
-
-      return bcrypt.hash(req.body.password, saltRounds).then(hash => {
-        const user = {
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
-          email: req.body.email,
-          password: hash,
-          role: ADMIN_ROLE
-        };
-
-        return users.updateAdmin(user).then(() => {
-          logger.info('User role modified correctly.');
-          res.status(200);
-          res.end();
-        });
-      });
-    })
-    .catch(err => {
-      logger.info('DB Error');
-      next(err);
+    return users.updateAdmin(user).then(() => {
+      logger.info('User role modified correctly.');
+      res.status(200);
+      res.end();
     });
+  });
 };
 
 exports.list = (req, res, next) => {
