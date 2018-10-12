@@ -1,3 +1,57 @@
+const bcrypt = require('bcryptjs'),
+  users = require('../app/models').users;
+
 exports.execute = () => {
-  // This function should create data for testing and return a promise
+  return bcrypt
+    .hash('password28', 10)
+    .then(hash => {
+      const data = [
+        users.newUser({
+          firstName: 'admin',
+          lastName: 'admin',
+          email: 'admin@wolox.com.ar',
+          password: hash,
+          role: 'admin'
+        }),
+        users.newUser({
+          firstName: 'juan',
+          lastName: 'notdoe',
+          email: 'juandoe@wolox.com.ar',
+          password: hash,
+          role: 'user'
+        }),
+        users.newUser({
+          firstName: 'john',
+          lastName: 'doe',
+          email: 'johndoe@wolox.com.ar',
+          password: hash,
+          role: 'user'
+        }),
+        users.newUser({
+          firstName: 'john two',
+          lastName: 'doe',
+          email: 'johndoe2@wolox.com.ar',
+          password: hash,
+          role: 'user'
+        }),
+        users.newUser({
+          firstName: 'john three',
+          lastName: 'doe',
+          email: 'johndoe3@wolox.com.ar',
+          password: hash,
+          role: 'user'
+        }),
+        users.newUser({
+          firstName: 'john four',
+          lastName: 'to the floor',
+          email: 'johndoe4@wolox.com.ar',
+          password: hash,
+          role: 'user'
+        })
+      ];
+      return Promise.all(data);
+    })
+    .catch(err => {
+      throw err;
+    });
 };
