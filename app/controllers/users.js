@@ -1,4 +1,5 @@
 const users = require('../models').users,
+  albums = require('../models').albums,
   paginate = require('express-paginate'),
   bcrypt = require('bcryptjs'),
   helpers = require('../helpers'),
@@ -13,14 +14,53 @@ const users = require('../models').users,
   LIMIT_DEFAULT = 50,
   PAGE_DEFAULT = 1;
 
-exports.albums = (req, res, next) => {
+exports.buyAlbum = (req, res, next) => {
+  // const token = req.headers.authorization;
+  // if (!token || !sessionManager.verify(token)) return next(errors.invalidAuth());
+  // const decoded = sessionManager.decode(token);
+
+  const owner = 'johndoe@wolox.com.ar';
+  const albumId = req.params.id;
+
+  albumsManager
+    .findAlbum(albumId)
+    .then(a => {
+      if (!a) return next(errors.invalidAlbum());
+      console.log(a);
+      albums.findEntry(owner, a.title).then(record => {
+        // console.log(record);
+        // falta testear las funciones de album
+        //   if (!record) {
+        //     const album = {
+        //       ownedBy: owner,
+        //       album: a.title,
+        //       albumId: a.id
+        //     },
+        //     albums.newEntry(album).then(u =>{
+        //       res.status(200);
+        //       res.end();
+        //     });
+        //   }
+        //   return next(errors.entryAlreadyExists());
+        //   res.end();
+      });
+    })
+    .catch(err => {
+      logger.info('External service error');
+      next(err);
+    });
+
+  res.end();
+};
+
+exports.listAlbums = (req, res, next) => {
   const token = req.headers.authorization;
   if (!token || !sessionManager.verify(token)) return next(errors.invalidAuth());
 
   albumsManager
     .listAlbums()
-    .then(albums => {
-      res.status(200).send(albums);
+    .then(a => {
+      res.status(200).send(a);
     })
     .catch(err => {
       logger.info('External service error');
