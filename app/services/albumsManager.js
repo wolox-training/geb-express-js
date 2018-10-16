@@ -15,11 +15,10 @@ const listAlbums = () => {
   });
 };
 
-const findAlbum = albumId => {
-  return listAlbums().then(list => {
+const findAlbum = albumId =>
+  listAlbums().then(list => {
     const album = list[albumId];
     return album;
   });
-};
 
 module.exports = { listAlbums, findAlbum };
