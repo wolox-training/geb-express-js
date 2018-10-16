@@ -15,19 +15,15 @@ const users = require('../models').users,
   PAGE_DEFAULT = 1;
 
 exports.listUserAlbums = (req, res, next) => {
-  const targetId = req.params.user_id,
-  user = req.user;
-
-  if (helpers.checksId(user.id, targetId) || helpers.isAdmin(user.role)) {
-    return users
-      .findUserById(targetId)
-      .then(target => albums.listEntries(target.email).then(entries => res.status(200).send(entries)))
-      .catch(err => {
-        logger.info('DB Error');
-        next(err);
-      });
-  }
-  return next(errors.invalidEntry());
+  return users
+    .findUserById(req.targetId)
+    .then(target => {
+      return albums.listEntries(target.email).then(entries => res.status(200).send(entries));
+    })
+    .catch(err => {
+      logger.info('DB Error');
+      next(err);
+    });
 };
 
 exports.buyAlbum = (req, res, next) => {
