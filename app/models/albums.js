@@ -14,6 +14,11 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
   };
 
+  albums.listEntries = owner =>
+    albums.findAll({ where: { ownedBy: owner } }).catch(err => {
+      throw errors.defaultDatabase(err);
+    });
+
   albums.newEntry = album =>
     albums.create(album).catch(err => {
       if (err.name === 'SequelizeUniqueConstraintError') {

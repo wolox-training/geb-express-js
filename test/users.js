@@ -21,6 +21,73 @@ const chai = require('chai'),
     ]);
 
 describe('albums', () => {
+  describe('/users/:user_id/albums POST', () => {
+    it('should be able to see its own albums', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'juandoe@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .get('/users/2/albums')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .then(res => {
+              res.body[0].ownedBy.should.equal('juandoe@wolox.com.ar');
+              res.should.have.status(200);
+            });
+        });
+    });
+
+    it('admin should be able to see others albums', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'admin@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .get('/users/2/albums')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .then(res => {
+              res.body[0].ownedBy.should.equal('juandoe@wolox.com.ar');
+              res.should.have.status(200);
+            });
+        });
+    });
+
+    it('user should not be able to see others albums', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'johndoe2@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .get('/users/2/albums')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .catch(err => {
+              err.should.have.status(400);
+            });
+        });
+    });
+
+    it('should not get albums without auth', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'johndoe2@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .get('/users/2/albums')
+            .catch(err => {
+              err.should.have.status(401);
+            });
+        });
+    });
+  });
+
   describe('/albums/:id POST', () => {
     it('should be able to buy album', () => {
       return chai

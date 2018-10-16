@@ -6,6 +6,7 @@ exports.init = app => {
   app.post('/users', users.signUp);
   app.post('/users/sessions', users.logIn);
   app.post('/albums/:id', users.buyAlbum);
+  app.get('/users/:user_id/albums', [auth.checkRole], users.listUserAlbums);
   app.get('/users', users.list);
   app.get('/albums', users.listAlbums);
 

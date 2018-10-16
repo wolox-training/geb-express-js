@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs'),
-  users = require('../app/models').users;
+  users = require('../app/models').users,
+  albums = require('../app/models').albums;
 
 exports.execute = () => {
   return bcrypt
@@ -47,6 +48,16 @@ exports.execute = () => {
           email: 'johndoe4@wolox.com.ar',
           password: hash,
           role: 'user'
+        }),
+        albums.newEntry({
+          ownedBy: 'juandoe@wolox.com.ar',
+          album: 'quidem molestiae enim',
+          albumId: '1'
+        }),
+        albums.newEntry({
+          ownedBy: 'juandoe@wolox.com.ar',
+          album: 'molestiae enim',
+          albumId: '3'
         })
       ];
       return Promise.all(data);

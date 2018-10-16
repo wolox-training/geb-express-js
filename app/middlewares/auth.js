@@ -9,7 +9,7 @@ exports.checkRole = (req, res, next) => {
   const decoded = sessionManager.decode(token);
   users.findUser(decoded.payload.user).then(u => {
     if (u) {
-      req.admin = u;
+      req.user = u;
       next();
     } else {
       res.status(401);

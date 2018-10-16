@@ -14,6 +14,21 @@ const users = require('../models').users,
   LIMIT_DEFAULT = 50,
   PAGE_DEFAULT = 1;
 
+exports.listUserAlbums = (req, res, next) => {
+  const targetId = req.params.user_id;
+  const user = req.user;
+  if (helpers.isAdmin(user.role) || helpers.checksId(user.id, targetId)) {
+    return users
+      .findUserById(targetId)
+      .then(u => albums.listEntries(u.email).then(entries => res.status(200).send(entries)))
+      .catch(err => {
+        logger.info('DB Error');
+        next(err);
+      });
+  }
+  return next(errors.invalidEntry());
+};
+
 exports.buyAlbum = (req, res, next) => {
   const token = req.headers.authorization;
   if (!token || !sessionManager.verify(token)) return next(errors.invalidAuth());
