@@ -14,7 +14,6 @@ exports.listAlbums = () => {
     });
   });
 };
-
 exports.findAlbum = albumId => {
   return new Promise(function(resolve, reject) {
     request(options, (error, response, body) => {
