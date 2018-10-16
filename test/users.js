@@ -1,8 +1,80 @@
 const chai = require('chai'),
+  nock = require('nock'),
   dictum = require('dictum.js'),
   server = require('./../app'),
   sessionManager = require('./../app/services/sessionManager'),
-  should = chai.should();
+  should = chai.should(),
+  albumsApi = nock('https://jsonplaceholder.typicode.com')
+    .persist()
+    .get('/albums')
+    .reply(200, [
+      {
+        userId: '1',
+        id: '1',
+        title: 'quidem molestiae enim'
+      },
+      {
+        userId: '2',
+        id: '1',
+        title: 'a quidem molestiae enim'
+      }
+    ]);
+
+describe('albums', () => {
+  describe('/albums GET', () => {
+    it('should get all albums', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'johndoe2@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .get('/albums')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .then(res => {
+              res.body[0].should.have.property('id');
+              res.body[0].should.have.property('title');
+              res.should.be.json;
+              res.should.have.status(200);
+            });
+        });
+    });
+
+    it('should get all albums, not able to see further information', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'johndoe2@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .get('/albums')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .then(res => {
+              res.body.should.not.have.property('userId');
+              res.should.have.status(200);
+            });
+        });
+    });
+
+    it('should not get list of albums, lacks auth', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'johndoe3@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .get('/albums')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .catch(err => {
+              err.should.have.status(401);
+            });
+        });
+    });
+  });
+});
 
 describe('users', () => {
   describe('/users/admin POST', () => {
