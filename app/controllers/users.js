@@ -17,7 +17,7 @@ exports.albums = (req, res, next) => {
   const token = req.headers.authorization;
   if (!token || !sessionManager.verify(token)) return next(errors.invalidAuth());
 
-  albumsManager
+  return albumsManager
     .listAlbums()
     .then(albums => {
       res.status(200).send(albums);
