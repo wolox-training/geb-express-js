@@ -20,7 +20,7 @@ exports.listUserAlbums = (req, res, next) => {
   if (helpers.checksId(user.id, targetId) || helpers.isAdmin(user.role)) {
     return users
       .findUserById(targetId)
-      .then(u => albums.listEntries(u.email).then(entries => res.status(200).send(entries)))
+      .then(target => albums.listEntries(target.email).then(entries => res.status(200).send(entries)))
       .catch(err => {
         logger.info('DB Error');
         next(err);
