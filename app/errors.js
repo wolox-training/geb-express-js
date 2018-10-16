@@ -22,12 +22,19 @@ exports.defaultDatabase = sequelizeError => {
   );
 };
 
+exports.ENTRY_ALREADY_EXISTS = 'entry_already_exists';
+exports.entryAlreadyExists = () =>
+  internalError('This titled is already owned by the user.', exports.ENTRY_ALREADY_EXISTS);
+
 exports.USER_ALREADY_EXISTS = 'user_already_exists';
 exports.userAlreadyExists = () =>
   internalError('The email was already used for another user.', exports.USER_ALREADY_EXISTS);
 
 exports.FORBIDDEN_ACTION = 'user_has_no_rights';
 exports.forbiddenAction = message => internalError(message, exports.FORBIDDEN_ACTION);
+
+exports.INVALID_ALBUM = 'invalid_album';
+exports.invalidAlbum = () => internalError('Album does not exist', exports.INVALID_ALBUM);
 
 exports.INVALID_AUTH = 'invalid_auth';
 exports.invalidAuth = () => internalError('User has no rights for this action', exports.INVALID_AUTH);

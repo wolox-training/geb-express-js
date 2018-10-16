@@ -5,14 +5,20 @@ const request = require('request'),
     json: true
   };
 
-exports.listAlbums = () => {
+const listAlbums = () => {
   return new Promise(function(resolve, reject) {
     request(options, (error, response, body) => {
       if (error) reject(error);
-      else {
-        const albums = body.map(key => ({ id: key.id, title: key.title }));
-        resolve(albums);
-      }
+      const albums = body.map(key => ({ id: key.id, title: key.title }));
+      resolve(albums);
     });
   });
 };
+
+const findAlbum = albumId =>
+  listAlbums().then(list => {
+    const album = list[albumId];
+    return album;
+  });
+
+module.exports = { listAlbums, findAlbum };
