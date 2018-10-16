@@ -22,7 +22,7 @@ const chai = require('chai'),
 
 describe('albums', () => {
   describe('/users/:user_id/albums POST', () => {
-    it('should be able to see its own albums', () => {
+    it('user should be able to see its own albums', () => {
       return chai
         .request(server)
         .post('/users/sessions')
@@ -34,6 +34,23 @@ describe('albums', () => {
             .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
             .then(res => {
               res.body[0].ownedBy.should.equal('juandoe@wolox.com.ar');
+              res.should.have.status(200);
+            });
+        });
+    });
+
+    it('admin should be able to see its own albums', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'admin@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .get('/users/1/albums')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .then(res => {
+              res.body[0].ownedBy.should.equal('admin@wolox.com.ar');
               res.should.have.status(200);
             });
         });

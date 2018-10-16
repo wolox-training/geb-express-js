@@ -58,6 +58,11 @@ exports.execute = () => {
           ownedBy: 'juandoe@wolox.com.ar',
           album: 'molestiae enim',
           albumId: '3'
+        }),
+        albums.newEntry({
+          ownedBy: 'admin@wolox.com.ar',
+          album: 'quidem molestiae enim',
+          albumId: '1'
         })
       ];
       return Promise.all(data);
