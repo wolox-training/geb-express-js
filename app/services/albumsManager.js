@@ -19,14 +19,7 @@ exports.findAlbum = albumId => {
   return new Promise(function(resolve, reject) {
     request(options, (error, response, body) => {
       if (error) reject(error);
-      const album = body.filter(key => key.id === parseInt(albumId))
-      //SALE CON REDUCE
-      // if(data.length){
-      // album = {
-      //   id: data[0].id,
-      //   title: data[0].title
-      //   };
-      // }
+      const album = body[albumId];
       resolve(album);
     });
   });

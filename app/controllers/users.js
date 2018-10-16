@@ -15,49 +15,44 @@ const users = require('../models').users,
   PAGE_DEFAULT = 1;
 
 exports.buyAlbum = (req, res, next) => {
-  // const token = req.headers.authorization;
-  // if (!token || !sessionManager.verify(token)) return next(errors.invalidAuth());
-  // const decoded = sessionManager.decode(token);
+  const token = req.headers.authorization;
+  if (!token || !sessionManager.verify(token)) return next(errors.invalidAuth());
+  const decoded = sessionManager.decode(token);
 
-  const owner = 'johndoe@wolox.com.ar';
+  const owner = decoded.payload.user;
   const albumId = req.params.id;
 
-  albumsManager
+  return albumsManager
     .findAlbum(albumId)
     .then(a => {
       if (!a) return next(errors.invalidAlbum());
-      console.log(a);
-      albums.findEntry(owner, a.title).then(record => {
-        // console.log(record);
-        // falta testear las funciones de album
-        //   if (!record) {
-        //     const album = {
-        //       ownedBy: owner,
-        //       album: a.title,
-        //       albumId: a.id
-        //     },
-        //     albums.newEntry(album).then(u =>{
-        //       res.status(200);
-        //       res.end();
-        //     });
-        //   }
-        //   return next(errors.entryAlreadyExists());
-        //   res.end();
+      return albums.findEntry(owner, a.title).then(record => {
+        if (record) return next(errors.entryAlreadyExists());
+        const entry = {
+          ownedBy: owner,
+          album: a.title,
+          albumId: a.id
+        };
+        return albums.newEntry(entry).then(() => {
+          res.status(200);
+          res.end();
+        }).catch(err =>{
+          logger.info('DB Error');
+          next(err);
+        });
       });
     })
     .catch(err => {
       logger.info('External service error');
       next(err);
     });
-
-  res.end();
 };
 
 exports.listAlbums = (req, res, next) => {
   const token = req.headers.authorization;
   if (!token || !sessionManager.verify(token)) return next(errors.invalidAuth());
 
-  albumsManager
+  return albumsManager
     .listAlbums()
     .then(a => {
       res.status(200).send(a);
