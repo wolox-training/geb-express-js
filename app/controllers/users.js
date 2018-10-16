@@ -22,7 +22,7 @@ exports.buyAlbum = (req, res, next) => {
   const owner = decoded.payload.user;
   const albumId = req.params.id;
 
-  return albumsManager
+  albumsManager
     .findAlbum(albumId)
     .then(a => {
       if (!a) return next(errors.invalidAlbum());
@@ -57,8 +57,8 @@ exports.listAlbums = (req, res, next) => {
 
   return albumsManager
     .listAlbums()
-    .then(a => {
-      res.status(200).send(a);
+    .then(list => {
+      res.status(200).send(list);
     })
     .catch(err => {
       logger.info('External service error');

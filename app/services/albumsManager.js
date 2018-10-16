@@ -5,7 +5,7 @@ const request = require('request'),
     json: true
   };
 
-exports.listAlbums = () => {
+const listAlbums = () => {
   return new Promise(function(resolve, reject) {
     request(options, (error, response, body) => {
       if (error) reject(error);
@@ -14,12 +14,12 @@ exports.listAlbums = () => {
     });
   });
 };
-exports.findAlbum = albumId => {
-  return new Promise(function(resolve, reject) {
-    request(options, (error, response, body) => {
-      if (error) reject(error);
-      const album = body[albumId];
-      resolve(album);
-    });
+
+const findAlbum = albumId => {
+  return listAlbums().then(list => {
+    const album = list[albumId];
+    return album;
   });
 };
+
+module.exports = { listAlbums, findAlbum };
