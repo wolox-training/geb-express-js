@@ -15,8 +15,9 @@ const users = require('../models').users,
   PAGE_DEFAULT = 1;
 
 exports.listUserAlbums = (req, res, next) => {
-  const targetId = req.params.user_id;
-  const user = req.user;
+  const targetId = req.params.user_id,
+  user = req.user;
+
   if (helpers.checksId(user.id, targetId) || helpers.isAdmin(user.role)) {
     return users
       .findUserById(targetId)

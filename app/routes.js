@@ -9,6 +9,5 @@ exports.init = app => {
   app.get('/users/:user_id/albums', [auth.checkRole], users.listUserAlbums);
   app.get('/users', users.list);
   app.get('/albums', users.listAlbums);
-
   // app.post('/endpoint/post/path', [], controller.methodPOST);
 };
