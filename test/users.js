@@ -15,12 +15,77 @@ const chai = require('chai'),
       },
       {
         userId: '2',
-        id: '1',
-        title: 'a quidem molestiae enim'
+        id: '3',
+        title: 'molestiae enim'
       }
     ]);
 
 describe('albums', () => {
+  describe('/albums/:id POST', () => {
+    it('should be able to buy album', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'admin@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .post('/albums/1')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .then(res => {
+              res.should.have.status(200);
+            });
+        });
+    });
+
+    it('should not be able to buy twice the same album', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'admin@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .post('/albums/1')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .catch(err => {
+              err.should.have.status(401);
+            });
+        });
+    });
+
+    it('should not be able to buy album without auth', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'admin@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .post('/albums/1')
+            .catch(err => {
+              err.should.have.status(401);
+            });
+        });
+    });
+
+    it('should not be able to buy invalid album', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'admin@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .post('/albums/1000')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .catch(err => {
+              err.should.have.status(400);
+            });
+        });
+    });
+  });
+
   describe('/albums GET', () => {
     it('should get all albums', () => {
       return chai

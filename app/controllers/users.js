@@ -33,13 +33,16 @@ exports.buyAlbum = (req, res, next) => {
           album: a.title,
           albumId: a.id
         };
-        return albums.newEntry(entry).then(() => {
-          res.status(200);
-          res.end();
-        }).catch(err =>{
-          logger.info('DB Error');
-          next(err);
-        });
+        return albums
+          .newEntry(entry)
+          .then(() => {
+            res.status(200);
+            res.end();
+          })
+          .catch(err => {
+            logger.info('DB Error');
+            next(err);
+          });
       });
     })
     .catch(err => {
