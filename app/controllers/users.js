@@ -5,12 +5,28 @@ const users = require('../models').users,
   auth = require('../middlewares/auth'),
   logger = require('../logger'),
   errors = require('../errors'),
+  albumsManager = require('../services/albumsManager'),
   sessionManager = require('../services/sessionManager'),
   saltRounds = 5,
   ADMIN_ROLE = 'admin',
   DEFAULT_ROLE = 'user',
   LIMIT_DEFAULT = 50,
   PAGE_DEFAULT = 1;
+
+exports.albums = (req, res, next) => {
+  const token = req.headers.authorization;
+  if (!token || !sessionManager.verify(token)) return next(errors.invalidAuth());
+
+  return albumsManager
+    .listAlbums()
+    .then(albums => {
+      res.status(200).send(albums);
+    })
+    .catch(err => {
+      logger.info('External service error');
+      next(err);
+    });
+};
 
 exports.admin = (req, res, next) => {
   const messages = helpers.validateSign(req.body);
