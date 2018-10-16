@@ -17,7 +17,7 @@ const users = require('../models').users,
 exports.listUserAlbums = (req, res, next) => {
   const targetId = req.params.user_id;
   const user = req.user;
-  if (helpers.isAdmin(user.role) || helpers.checksId(user.id, targetId)) {
+  if (helpers.checksId(user.id, targetId) || helpers.isAdmin(user.role)) {
     return users
       .findUserById(targetId)
       .then(u => albums.listEntries(u.email).then(entries => res.status(200).send(entries)))
