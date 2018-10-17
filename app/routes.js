@@ -7,6 +7,7 @@ exports.init = app => {
   app.post('/users/sessions', users.logIn);
   app.post('/albums/:id', users.buyAlbum);
   app.get('/users/:user_id/albums', [auth.checkAuth, auth.checkRoleOrId], users.listUserAlbums);
+  app.get('/users/albums/:id/photos', [auth.checkAuth], users.listPhotos);
   app.get('/users', users.list);
   app.get('/albums', users.listAlbums);
   // app.post('/endpoint/post/path', [], controller.methodPOST);

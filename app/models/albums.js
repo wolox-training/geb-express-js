@@ -32,5 +32,10 @@ module.exports = (sequelize, DataTypes) => {
       throw errors.defaultDatabase(err);
     });
 
+  albums.findEntryById = (owner, id) =>
+    albums.findOne({ where: { ownedBy: owner, albumId: id } }).catch(err => {
+      throw errors.defaultDatabase(err);
+    });
+
   return albums;
 };
