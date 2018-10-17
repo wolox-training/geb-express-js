@@ -19,7 +19,7 @@ exports.checkAuth = (req, res, next) => {
   });
 };
 
-exports.checkUserAlbums = (req, res, next) => {
+exports.checkRoleOrId = (req, res, next) => {
   const targetId = req.params.user_id,
     user = req.user;
   if (helpers.checksId(user.id, targetId) || helpers.isAdmin(user.role)) {

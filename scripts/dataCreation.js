@@ -15,13 +15,6 @@ exports.execute = () => {
           role: 'admin'
         }),
         users.newUser({
-          firstName: 'juan',
-          lastName: 'notdoe',
-          email: 'juandoe@wolox.com.ar',
-          password: hash,
-          role: 'user'
-        }),
-        users.newUser({
           firstName: 'john',
           lastName: 'doe',
           email: 'johndoe@wolox.com.ar',
@@ -46,6 +39,13 @@ exports.execute = () => {
           firstName: 'john four',
           lastName: 'to the floor',
           email: 'johndoe4@wolox.com.ar',
+          password: hash,
+          role: 'user'
+        }),
+        users.newUser({
+          firstName: 'juan',
+          lastName: 'notdoe',
+          email: 'juandoe@wolox.com.ar',
           password: hash,
           role: 'user'
         }),

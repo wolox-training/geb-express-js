@@ -30,7 +30,7 @@ describe('albums', () => {
         .then(logged => {
           return chai
             .request(server)
-            .get('/users/2/albums')
+            .get('/users/6/albums')
             .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
             .then(res => {
               res.body[0].ownedBy.should.equal('juandoe@wolox.com.ar');
@@ -64,7 +64,7 @@ describe('albums', () => {
         .then(logged => {
           return chai
             .request(server)
-            .get('/users/2/albums')
+            .get('/users/6/albums')
             .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
             .then(res => {
               res.body[0].ownedBy.should.equal('juandoe@wolox.com.ar');
@@ -81,7 +81,7 @@ describe('albums', () => {
         .then(logged => {
           return chai
             .request(server)
-            .get('/users/2/albums')
+            .get('/users/6/albums')
             .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
             .catch(err => {
               err.should.have.status(400);
@@ -97,7 +97,7 @@ describe('albums', () => {
         .then(logged => {
           return chai
             .request(server)
-            .get('/users/2/albums')
+            .get('/users/6/albums')
             .catch(err => {
               err.should.have.status(401);
             });
