@@ -8,10 +8,7 @@ const users = require('../models').users,
   VALID_CL = /^\w+([\.-]?\w+)*@\wolox.cl/;
 
 exports.filterPhotos = (albumId, photosList) => {
-  const userPhotos = [];
-  photosList.forEach(photo => {
-    if (parseInt(photo.albumId) === albumId) userPhotos.push(photo);
-  });
+  const userPhotos = photosList.filter(photo => parseInt(photo.albumId) === albumId);
   return userPhotos;
 };
 
