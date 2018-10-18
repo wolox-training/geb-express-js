@@ -136,7 +136,7 @@ exports.logIn = (req, res, next) => {
       if (!u) return next(errors.invalidUsername());
       return bcrypt.compare(req.body.password, u.password).then(valid => {
         if (!valid) next(errors.invalidPassword());
-        const token = sessionManager.encode({ user: u.email });
+        const token = sessionManager.encode({ user: u.email, time: new Date() });
         res.set(sessionManager.HEADER, token);
         res.send(u);
         res.status(200);
