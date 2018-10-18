@@ -1,38 +1,29 @@
 const request = require('request'),
-  PHOTOS = 'photos',
-  ALBUMS = 'albums',
-  fetchAlbums = {
+  PHOTOS = {
     url: 'https://jsonplaceholder.typicode.com/albums',
     method: 'GET',
     json: true
   },
-  fetchPhotos = {
-    name: PHOTOS,
+  ALBUMS = {
     url: 'https://jsonplaceholder.typicode.com/photos',
     method: 'GET',
     json: true
   };
 
+// const photos = body.map(key => ({
+//   albumId: key.albumId,
+//   id: key.id,
+//   title: key.title,
+//   url: key.url
+// }));
+// // const albums = body.map(key => ({ id: key.id, title: key.title }));
+
 const list = options =>
   new Promise(function(resolve, reject) {
-    if (options === PHOTOS) {
-      request(fetchPhotos, (error, response, body) => {
-        if (error) reject(error);
-        const photos = body.map(key => ({
-          albumId: key.albumId,
-          id: key.id,
-          title: key.title,
-          url: key.url
-        }));
-        resolve(photos);
-      });
-    } else if (options === ALBUMS) {
-      request(fetchAlbums, (error, response, body) => {
-        if (error) reject(error);
-        const albums = body.map(key => ({ id: key.id, title: key.title }));
-        resolve(albums);
-      });
-    }
+    request(options, (error, response, body) => {
+      if (error) reject(error);
+      resolve(body);
+    });
   });
 
 const findAlbum = albumId =>
@@ -41,11 +32,4 @@ const findAlbum = albumId =>
     return album;
   });
 
-const findPhotos = data => {
-  list(PHOTOS).then(photos => {
-    const userPhotos = photos.filter(photo => photo.albumId === data.albumId);
-    return userPhotos;
-  });
-};
-
-module.exports = { PHOTOS, ALBUMS, list, findAlbum, findPhotos };
+module.exports = { PHOTOS, ALBUMS, list, findAlbum };
