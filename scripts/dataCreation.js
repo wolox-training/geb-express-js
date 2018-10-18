@@ -6,6 +6,15 @@ exports.execute = () => {
   return bcrypt
     .hash('password28', 10)
     .then(hash => {
+      Promise.resolve([
+        users.newUser({
+          firstName: 'admin',
+          lastName: 'admin',
+          email: 'admin@wolox.com.ar',
+          password: hash,
+          role: 'admin'
+        })
+      ]);
       const data = [];
       data.push(
         albums.newEntry({
@@ -26,15 +35,6 @@ exports.execute = () => {
           ownedBy: 'admin@wolox.com.ar',
           album: 'quidem molestiae enim',
           albumId: '1'
-        })
-      );
-      data.push(
-        users.newUser({
-          firstName: 'admin',
-          lastName: 'admin',
-          email: 'admin@wolox.com.ar',
-          password: hash,
-          role: 'admin'
         })
       );
       data.push(
