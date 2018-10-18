@@ -14,10 +14,9 @@ const users = require('../models').users,
   LIMIT_DEFAULT = 50,
   PAGE_DEFAULT = 1;
 
-exports.listPhotos = (req, res, next) => {
-  const albumId = req.params.id;
-  return albums
-    .findEntryById(req.user.email, albumId)
+exports.listPhotos = (req, res, next) =>
+  albums
+    .findEntryById(req.user.email, req.params.id)
     .then(userAlbum =>
       albumsManager.list(albumsManager.PHOTOS).then(pics => {
         if (!userAlbum && !helpers.isAdmin(req.user.role)) return next(errors.forbiddenAction());
@@ -29,19 +28,15 @@ exports.listPhotos = (req, res, next) => {
       logger.info('DB Error');
       next(err);
     });
-};
 
-exports.listUserAlbums = (req, res, next) => {
-  return users
+exports.listUserAlbums = (req, res, next) =>
+  users
     .findUserById(req.targetId)
-    .then(target => {
-      return albums.listEntries(target.email).then(entries => res.status(200).send(entries));
-    })
+    .then(target => albums.listEntries(target.email).then(entries => res.status(200).send(entries)))
     .catch(err => {
       logger.info('DB Error');
       next(err);
     });
-};
 
 exports.buyAlbum = (req, res, next) => {
   const token = req.headers.authorization;
