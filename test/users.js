@@ -18,10 +18,117 @@ const chai = require('chai'),
         id: '3',
         title: 'molestiae enim'
       }
+    ]),
+  photosApi = nock('https://jsonplaceholder.typicode.com')
+    .persist()
+    .get('/photos')
+    .reply(200, [
+      {
+        albumId: 1,
+        id: 302,
+        title: 'nihil et ducimus in ipsa perspiciatis',
+        url: 'https://via.placeholder.com/600/4e2b80'
+      },
+      {
+        albumId: 1,
+        id: 303,
+        title: 'minima sit nulla',
+        url: 'https://via.placeholder.com/600/2c253f'
+      },
+      {
+        albumId: 1,
+        id: 304,
+        title: 'animi sit pariatur odio autem consequatur autem amet',
+        url: 'https://via.placeholder.com/600/f317f5'
+      },
+      {
+        albumId: 3,
+        id: 305,
+        title: 'ea rem impedit facilis nobis velit in',
+        url: 'https://via.placeholder.com/600/37060d'
+      },
+      {
+        albumId: 3,
+        id: 306,
+        title: 'impedit aliquid consequatur enim ipsa fugit fugiat dolorem vel',
+        url: 'https://via.placeholder.com/600/f8c85b'
+      }
     ]);
 
 describe('albums', () => {
-  describe('/users/:user_id/albums POST', () => {
+  describe('/users/albums/:id/photos', () => {
+    it('user should not get photos that does not have', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'johndoe2@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .get('/users/albums/1/photos')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .catch(err => {
+              err.should.have.status(401);
+            });
+        });
+    });
+
+    it('admin should get its own photos ok', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'admin@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .get('/users/albums/1/photos')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .then(res => {
+              res.body[0].should.have.property('albumId');
+              res.body[0].should.have.property('title');
+              res.body[0].should.have.property('url');
+              res.should.have.status(200);
+            });
+        });
+    });
+
+    it('user should get its own photos ok', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'juandoe@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .get('/users/albums/1/photos')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .then(res => {
+              res.body[0].should.have.property('albumId');
+              res.body[0].should.have.property('title');
+              res.body[0].should.have.property('url');
+              res.should.have.status(200);
+            });
+        });
+    });
+
+    it('should not get photos without auth', () => {
+      return chai
+        .request(server)
+        .post('/users/sessions')
+        .send({ email: 'admin@wolox.com.ar', password: 'password28' })
+        .then(logged => {
+          return chai
+            .request(server)
+            .get('/users/albums/1/photos')
+            .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+            .catch(err => {
+              err.should.have.status(401);
+            });
+        });
+    });
+  });
+
+  describe('/users/:user_id/albums GET', () => {
     it('user should be able to see its own albums', () => {
       return chai
         .request(server)

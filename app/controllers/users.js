@@ -14,6 +14,21 @@ const users = require('../models').users,
   LIMIT_DEFAULT = 50,
   PAGE_DEFAULT = 1;
 
+exports.listPhotos = (req, res, next) =>
+  albums
+    .findEntryById(req.user.email, req.params.id)
+    .then(userAlbum =>
+      albumsManager.list(albumsManager.PHOTOS).then(pics => {
+        if (!userAlbum && !helpers.isAdmin(req.user.role)) return next(errors.forbiddenAction());
+        const userPhotos = helpers.filterPhotos(userAlbum.albumId, pics);
+        res.status(200).send(userPhotos);
+      })
+    )
+    .catch(err => {
+      logger.info('DB Error');
+      next(err);
+    });
+
 exports.listUserAlbums = (req, res, next) =>
   users
     .findUserById(req.targetId)
@@ -65,7 +80,7 @@ exports.listAlbums = (req, res, next) => {
   if (!token || !sessionManager.verify(token)) return next(errors.invalidAuth());
 
   return albumsManager
-    .listAlbums()
+    .list(albumsManager.ALBUMS)
     .then(list => {
       res.status(200).send(list);
     })

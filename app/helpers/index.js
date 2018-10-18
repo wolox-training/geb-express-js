@@ -7,6 +7,14 @@ const users = require('../models').users,
   VALID_CO = /^\w+([\.-]?\w+)*@\wolox.co/,
   VALID_CL = /^\w+([\.-]?\w+)*@\wolox.cl/;
 
+exports.filterPhotos = (albumId, photosList) => {
+  const userPhotos = photosList.filter(photo => parseInt(photo.albumId) === albumId);
+  return userPhotos;
+};
+
+exports.mapEntries = userAlbums =>
+  userAlbums.map(entry => ({ ownedBy: entry.ownedBy, album: entry.album, albumId: entry.id }));
+
 exports.isAdmin = role => role === ADMIN_ROLE;
 
 exports.checksId = (userId, targetId) => parseInt(userId) === parseInt(targetId);

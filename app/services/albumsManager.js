@@ -1,24 +1,27 @@
 const request = require('request'),
-  options = {
+  PHOTOS = {
+    url: 'https://jsonplaceholder.typicode.com/photos',
+    method: 'GET',
+    json: true
+  },
+  ALBUMS = {
     url: 'https://jsonplaceholder.typicode.com/albums',
     method: 'GET',
     json: true
   };
 
-const listAlbums = () => {
-  return new Promise(function(resolve, reject) {
+const list = options =>
+  new Promise(function(resolve, reject) {
     request(options, (error, response, body) => {
       if (error) reject(error);
-      const albums = body.map(key => ({ id: key.id, title: key.title }));
-      resolve(albums);
+      resolve(body);
     });
   });
-};
 
 const findAlbum = albumId =>
-  listAlbums().then(list => {
-    const album = list[albumId];
+  list(ALBUMS).then(albumsList => {
+    const album = albumsList[albumId];
     return album;
   });
 
-module.exports = { listAlbums, findAlbum };
+module.exports = { PHOTOS, ALBUMS, list, findAlbum };
