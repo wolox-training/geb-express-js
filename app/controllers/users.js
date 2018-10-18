@@ -20,7 +20,7 @@ exports.listPhotos = (req, res, next) =>
     .then(userAlbum =>
       albumsManager.list(albumsManager.PHOTOS).then(pics => {
         if (!userAlbum && !helpers.isAdmin(req.user.role)) return next(errors.forbiddenAction());
-        const userPhotos = helpers.filterPhotos(userAlbum.id, pics);
+        const userPhotos = helpers.filterPhotos(userAlbum.albumId, pics);
         res.status(200).send(userPhotos);
       })
     )

@@ -10,7 +10,7 @@ const users = require('../models').users,
 exports.filterPhotos = (albumId, photosList) => {
   const userPhotos = [];
   photosList.forEach(photo => {
-    if (photo.albumId === albumId) userPhotos.push(photo);
+    if (parseInt(photo.albumId) === albumId) userPhotos.push(photo);
   });
   return userPhotos;
 };
