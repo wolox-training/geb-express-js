@@ -129,6 +129,7 @@ exports.list = (req, res, next) => {
     });
 };
 
+
 exports.logIn = (req, res, next) => {
   return users
     .findUser(req.body.email)
@@ -138,6 +139,8 @@ exports.logIn = (req, res, next) => {
         if (!valid) next(errors.invalidPassword());
         const token = sessionManager.encode({ user: u.email, time: new Date() });
         res.set(sessionManager.HEADER, token);
+
+
         res.send(u);
         res.status(200);
       });

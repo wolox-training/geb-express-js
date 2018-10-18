@@ -1,4 +1,5 @@
 const users = require('../models').users,
+  sessions = require('../models').sessions,
   helpers = require('../helpers'),
   sessionManager = require('./../services/sessionManager'),
   errors = require('../errors'),
