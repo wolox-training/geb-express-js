@@ -55,6 +55,50 @@ const chai = require('chai'),
       }
     ]);
 
+describe('sessions', () => {
+  it('should not expire', () => {
+    return chai
+      .request(server)
+      .post('/users/sessions')
+      .send({ email: 'admin@wolox.com.ar', password: 'password28' })
+      .then(logged => {
+        const expire = chai
+          .request(server)
+          .get('/albums')
+          .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER]);
+
+        return setTimeout(
+          () =>
+            expire.then(res => {
+              res.should.have.status(200);
+            }),
+          15
+        );
+      });
+  });
+
+  it('should expire', () => {
+    return chai
+      .request(server)
+      .post('/users/sessions')
+      .send({ email: 'admin@wolox.com.ar', password: 'password28' })
+      .then(logged => {
+        const expire = chai
+          .request(server)
+          .get('/albums')
+          .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER]);
+
+        return setTimeout(
+          () =>
+            expire.catch(err => {
+              err.should.have.status(400);
+            }),
+          15000
+        );
+      });
+  });
+});
+
 describe('albums', () => {
   describe('/users/albums/:id/photos', () => {
     it('user should not get photos that does not have', () => {
