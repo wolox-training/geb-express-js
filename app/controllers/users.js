@@ -15,19 +15,19 @@ const users = require('../models').users,
   PAGE_DEFAULT = 1;
 
 exports.listPhotos = (req, res, next) => {
-  const albumId = req.params.id,
-    entry = albums.findEntryById(req.user.email, albumId),
-    photos = albumsManager.list(albumsManager.PHOTOS);
-  return Promise.all([entry, photos])
-    .then(r => {
-      const userAlbum = r[0].get({ plain: true }),
-        photosList = r[1];
-      const userPhotos = helpers.filterPhotos(userAlbum.albumId, photosList);
-      res.status(200).send(userPhotos);
-    })
+  const albumId = req.params.id;
+  return albums
+    .findEntryById(req.user.email, albumId)
+    .then(userAlbum =>
+      albumsManager.list(albumsManager.PHOTOS).then(pics => {
+        if (!userAlbum && !helpers.isAdmin(req.user.role)) return next(errors.forbiddenAction());
+        const userPhotos = helpers.filterPhotos(userAlbum.id, pics);
+        res.status(200).send(userPhotos);
+      })
+    )
     .catch(err => {
-      logger.info('Error');
-      next(errors.forbiddenAction());
+      logger.info('DB Error');
+      next(err);
     });
 };
 
