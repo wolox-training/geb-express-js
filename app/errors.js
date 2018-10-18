@@ -33,6 +33,9 @@ exports.userAlreadyExists = () =>
 exports.FORBIDDEN_ACTION = 'user_has_no_rights';
 exports.forbiddenAction = message => internalError(message, exports.FORBIDDEN_ACTION);
 
+exports.INVALID_ENTRY = 'invalid_entry';
+exports.invalidEntry = () => internalError('Cant get this user albums list', exports.INVALID_ENTRY);
+
 exports.INVALID_ALBUM = 'invalid_album';
 exports.invalidAlbum = () => internalError('Album does not exist', exports.INVALID_ALBUM);
 

@@ -48,6 +48,11 @@ module.exports = (sequelize, DataTypes) => {
       throw errors.defaultDatabase(err);
     });
 
+  users.findUserById = id =>
+    users.findById(id).catch(err => {
+      throw errors.defaultDatabase(err);
+    });
+
   users.newUser = user =>
     users.create(user).catch(err => {
       if (err.name === 'SequelizeUniqueConstraintError') {

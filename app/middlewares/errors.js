@@ -9,6 +9,7 @@ const statusCodes = {
   [errors.INVALID_EMAIL]: 400,
   [errors.INVALID_PASSWORD]: 400,
   [errors.INVALID_SIGNUP]: 400,
+  [errors.INVALID_ENTRY]: 400,
   [errors.INVALID_AUTH]: 401,
   [errors.FORBIDDEN_ACTION]: 401,
   [errors.ENTRY_ALREADY_EXISTS]: 422,

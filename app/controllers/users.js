@@ -14,6 +14,15 @@ const users = require('../models').users,
   LIMIT_DEFAULT = 50,
   PAGE_DEFAULT = 1;
 
+exports.listUserAlbums = (req, res, next) =>
+  users
+    .findUserById(req.targetId)
+    .then(target => albums.listEntries(target.email).then(entries => res.status(200).send(entries)))
+    .catch(err => {
+      logger.info('DB Error');
+      next(err);
+    });
+
 exports.buyAlbum = (req, res, next) => {
   const token = req.headers.authorization;
   if (!token || !sessionManager.verify(token)) return next(errors.invalidAuth());
