@@ -1,4 +1,5 @@
 const users = require('../models').users,
+  sessions = require('../models').sessions,
   albums = require('../models').albums,
   paginate = require('express-paginate'),
   bcrypt = require('bcryptjs'),
@@ -13,6 +14,18 @@ const users = require('../models').users,
   DEFAULT_ROLE = 'user',
   LIMIT_DEFAULT = 50,
   PAGE_DEFAULT = 1;
+
+exports.disableAll = (req, res, next) =>
+  sessions
+    .delete(req.user.email)
+    .then(() => {
+      res.status(200);
+      res.end();
+    })
+    .catch(err => {
+      logger.info('DB Error');
+      next(err);
+    });
 
 exports.listPhotos = (req, res, next) =>
   albums
@@ -136,10 +149,12 @@ exports.logIn = (req, res, next) => {
       if (!u) return next(errors.invalidUsername());
       return bcrypt.compare(req.body.password, u.password).then(valid => {
         if (!valid) next(errors.invalidPassword());
-        const token = sessionManager.encode({ user: u.email, time: new Date() });
-        res.set(sessionManager.HEADER, token);
-        res.send(u);
-        res.status(200);
+        const token = sessionManager.encode({ user: u.email, time: Date() });
+        return sessionManager.new(u.email).then(s => {
+          res.set(sessionManager.HEADER, token);
+          res.send(u);
+          res.status(200);
+        });
       });
     })
     .catch(err => {
