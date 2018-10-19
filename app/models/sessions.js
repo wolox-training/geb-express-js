@@ -21,8 +21,8 @@ module.exports = (sequelize, DataTypes) => {
       throw errors.defaultDatabase(err);
     });
 
-  sessions.find = email =>
-    sessions.findAll({ where: { user: email } }).catch(err => {
+  sessions.find = (email, tokenDate) =>
+    sessions.findOne({ where: { user: email, date: tokenDate } }).catch(err => {
       throw errors.defaultDatabase(err);
     });
 
