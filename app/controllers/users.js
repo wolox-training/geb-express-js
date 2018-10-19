@@ -18,8 +18,10 @@ const users = require('../models').users,
 exports.disableAll = (req, res, next) =>
   sessions
     .delete(req.user.email)
-    .then(() => {
+    .then(s => {
+      if (!s) logger.info('No sessions deleted');
       res.status(200);
+      logger.info(`Deleted ${s} sessions from ${req.user.email}`);
       res.end();
     })
     .catch(err => {
@@ -151,6 +153,7 @@ exports.logIn = (req, res, next) => {
         if (!valid) next(errors.invalidPassword());
         const token = sessionManager.encode({ user: u.email, time: Date() });
         return sessionManager.new(u.email).then(s => {
+          logger.info(`${Date()}: Session added for ${u.email}`);
           res.set(sessionManager.HEADER, token);
           res.send(u);
           res.status(200);
