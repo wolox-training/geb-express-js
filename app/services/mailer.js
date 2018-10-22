@@ -1,7 +1,8 @@
 // Use at least Nodemailer v4.1.0
 const nodemailer = require('nodemailer'),
   nodeoutlook = require('nodejs-nodemailer-outlook'),
-  settings = require('./mailerconfig').account;
+  settings = require('./mailerconfig').account,
+  logger = require('../logger');
 
 exports.send = message => {
   const transporter = nodemailer.createTransport({
@@ -13,7 +14,7 @@ exports.send = message => {
   });
 
   return transporter.sendMail(message, (err, info) => {
-    if (err) console.log(err);
-    else console.log(info);
+    if (err) logger.info(err)
+    else logger.info(`Sending email to: ${info}`);
   });
 };

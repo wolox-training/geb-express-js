@@ -16,7 +16,6 @@ const users = require('../models').users,
   LIMIT_DEFAULT = 50,
   PAGE_DEFAULT = 1;
 
-
 exports.disableAll = (req, res, next) =>
   sessions
     .delete(req.user.email)
@@ -189,13 +188,13 @@ exports.signUp = (req, res, next) => {
       return users.newUser(user).then(u => {
         const customMessage = {
           from: '<elbotdegermo@gmail.com>',
-          to: 'german.bonin@wolox.com.ar',
-          subject: 'real lampone',
-          text: 'hello lampone?',
-          html: '<h1> king of lampones</h1>'
+          to: user.email,
+          subject: 'Welcome!',
+          text: 'Welcome to wolox',
+          html: '<b>This is a welcome email</b>'
         };
 
-
+        mailer.send(customMessage);
 
         logger.info('User created correctly.');
         res.status(200);

@@ -2,7 +2,6 @@ const users = require('./controllers/users'),
   auth = require('./middlewares/auth');
 
 exports.init = app => {
-  app.post('/mail', users.sendMail);
   app.post('/users/sessions/invalidate_all', [auth.checkAuth], users.disableAll);
   app.post('/users/admin', [auth.checkAuth, auth.checkSession], users.admin);
   app.post('/users', users.signUp);
