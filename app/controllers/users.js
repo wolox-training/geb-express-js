@@ -7,6 +7,7 @@ const users = require('../models').users,
   auth = require('../middlewares/auth'),
   logger = require('../logger'),
   errors = require('../errors'),
+  mailer = require('../services/mailer'),
   albumsManager = require('../services/albumsManager'),
   sessionManager = require('../services/sessionManager'),
   saltRounds = 5,
@@ -14,6 +15,7 @@ const users = require('../models').users,
   DEFAULT_ROLE = 'user',
   LIMIT_DEFAULT = 50,
   PAGE_DEFAULT = 1;
+
 
 exports.disableAll = (req, res, next) =>
   sessions
@@ -185,6 +187,16 @@ exports.signUp = (req, res, next) => {
       };
 
       return users.newUser(user).then(u => {
+        const customMessage = {
+          from: '<elbotdegermo@gmail.com>',
+          to: 'german.bonin@wolox.com.ar',
+          subject: 'real lampone',
+          text: 'hello lampone?',
+          html: '<h1> king of lampones</h1>'
+        };
+
+
+
         logger.info('User created correctly.');
         res.status(200);
         res.end();
