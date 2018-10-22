@@ -106,7 +106,6 @@ describe('sessions', () => {
         return setTimeout(
           () =>
             expire.catch(err => {
-              console.log('hey');
               err.should.have.status(400);
             }),
           15000
