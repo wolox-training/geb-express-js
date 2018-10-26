@@ -53,26 +53,41 @@ const chai = require('chai'),
         title: 'impedit aliquid consequatur enim ipsa fugit fugiat dolorem vel',
         url: 'https://via.placeholder.com/600/f8c85b'
       }
-    ]);
+    ]),
+  adminlogIn = chai
+    .request(server)
+    .post('/users/sessions')
+    .send({ email: 'admin@wolox.com.ar', password: 'password28' });
 
 describe('sessions', () => {
+  it('should expire all sessions from user', () => {
+    adminlogIn.then(userSession => {
+      chai
+        .request(server)
+        .post('/users/sessions/invalidate_all')
+        .set(sessionManager.HEADER, userSession.headers[sessionManager.HEADER])
+        .then(res => {
+          res.should.have.status(200);
+        });
+    });
+  });
+
   it('should not expire', () => {
     return chai
       .request(server)
       .post('/users/sessions')
       .send({ email: 'admin@wolox.com.ar', password: 'password28' })
       .then(logged => {
-        const expire = chai
-          .request(server)
-          .get('/albums')
-          .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER]);
-
         return setTimeout(
           () =>
-            expire.then(res => {
-              res.should.have.status(200);
-            }),
-          15
+            chai
+              .request(server)
+              .get('/albums')
+              .set(sessionManager.HEADER, logged.headers[sessionManager.HEADER])
+              .then(res => {
+                res.should.have.status(200);
+              }),
+          1000
         );
       });
   });
