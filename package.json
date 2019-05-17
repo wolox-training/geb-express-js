@@ -56,6 +56,7 @@
     "pg-native": "^2.2.0",
     "rollbar": "^2.3.9",
     "sequelize": "^4.39.0",
+    "supertest": "^4.0.2",
     "umzug": "^2.1.0",
     "validator": "^10.7.1",
     "winston": "^2.4.0",
