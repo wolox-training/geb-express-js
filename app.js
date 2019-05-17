@@ -8,6 +8,7 @@ const express = require('express'),
   errors = require('./app/middlewares/errors'),
   migrationsManager = require('./migrations'),
   logger = require('./app/logger'),
+  server = require('./app/graphql'),
   DEFAULT_BODY_SIZE_LIMIT = 1024 * 1024 * 10,
   DEFAULT_PARAMETER_LIMIT = 10000;
 
@@ -49,20 +50,24 @@ const init = () => {
       }
     })
     .then(() => {
-      routes.init(app);
+      // routes.init(app);
+      //
+      // app.use(errors.handle);
+      //
+      // const rollbar = new Rollbar({
+      //   accessToken: config.common.rollbar.accessToken,
+      //   enabled: !!config.common.rollbar.accessToken,
+      //   environment: config.common.rollbar.environment || config.environment
+      // });
+      // app.use(rollbar.errorHandler());
+      //
+      // app.listen(port);
 
-      app.use(errors.handle);
-
-      const rollbar = new Rollbar({
-        accessToken: config.common.rollbar.accessToken,
-        enabled: !!config.common.rollbar.accessToken,
-        environment: config.common.rollbar.environment || config.environment
+      server.listen(port).then(({ url }) => {
+        logger.info(`🚀 Server ready at ${url}`);
       });
-      app.use(rollbar.errorHandler());
 
-      app.listen(port);
-
-      logger.info(`Listening on port: ${port}`);
+      // logger.info(`Listening on port: ${port}`);
     })
     .catch(logger.error);
 };
