@@ -50,24 +50,23 @@ const init = () => {
       }
     })
     .then(() => {
-      // routes.init(app);
-      //
-      // app.use(errors.handle);
-      //
-      // const rollbar = new Rollbar({
-      //   accessToken: config.common.rollbar.accessToken,
-      //   enabled: !!config.common.rollbar.accessToken,
-      //   environment: config.common.rollbar.environment || config.environment
-      // });
-      // app.use(rollbar.errorHandler());
-      //
-      // app.listen(port);
+      routes.init(app);
 
-      server.listen(port).then(({ url }) => {
-        logger.info(`🚀 Server ready at ${url}`);
+      app.use(errors.handle);
+
+      const rollbar = new Rollbar({
+        accessToken: config.common.rollbar.accessToken,
+        enabled: !!config.common.rollbar.accessToken,
+        environment: config.common.rollbar.environment || config.environment
       });
+      app.use(rollbar.errorHandler());
 
-      // logger.info(`Listening on port: ${port}`);
+      app.listen(port);
+      logger.info(`Express app listening on port: ${port}`);
+
+      server.listen(config.common.graphql.port).then(({ url }) => {
+        logger.info(`🚀 Apollo server ready at ${url}`);
+      });
     })
     .catch(logger.error);
 };
